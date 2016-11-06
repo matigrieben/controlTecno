@@ -10,7 +10,7 @@ typedef struct usuarios
 }usuarios;
 
 void logg(int); 
-int cargarArchivo(int *);
+int cargarArchivo(int);
 int ListarUsuarios(struct usuarios **, char *);
 void liberarListaUsuarios(struct usuarios *);
 void imprimirListaUsuarios(struct usuarios *);

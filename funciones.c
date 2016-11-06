@@ -12,7 +12,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "funciones.h"
-
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
 
 /**
 	\fn int cargarArchivo()
@@ -23,7 +25,7 @@
 	\param ---- 
 	\return estatus: 1 error; 0 carga exitosa
 */
-int cargarArchivo(int *uart0_filestream)
+int cargarArchivo(int uart0_filestream)
 {
 	FILE *fp;
 	int codigo, edad, dni, estatus;
@@ -31,14 +33,15 @@ int cargarArchivo(int *uart0_filestream)
 	char vector[27];
 	int rx_length = 0, hola = 0, contador = 0;
 	unsigned char rx_buffer[100];
+	tcflush(uart0_filestream, TCIFLUSH);
 	
 	printf("ingrese los datos del nuevo usuario: \n");
 	printf("pase la tarjeta del nuevo usuario \n "); //tiene que ser leido del rfid
 	while(1)
 	{
-	if (*uart0_filestream != -1)
+	if (uart0_filestream != -1)
 	{
-		rx_length = read(*uart0_filestream, (void *)rx_buffer, 100);				
+		rx_length = read(uart0_filestream, (void *)rx_buffer, 100);				
 		if (rx_length > 0)
 		{	
 			hola = hola + rx_length;
@@ -50,7 +53,7 @@ int cargarArchivo(int *uart0_filestream)
 			contador = 0;
 			if(hola > 25)
 				{	
-					vector[27] = '\0'; 	
+					vector[26] = '\0'; 	
 					printf("hola %d    bytes read : %s\n", hola, vector);
 					rx_length = 0;
 					hola = 0;
@@ -78,9 +81,10 @@ int cargarArchivo(int *uart0_filestream)
 					fclose(fp);
 				}
 			}			
-				return estatus;
+
 }
 }
+return estatus;
 }
 /**
 	\fn void log(char *usuario)
