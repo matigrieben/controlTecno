@@ -1,6 +1,6 @@
 typedef struct usuarios
 {
-	char codigo[30];
+	char codigo[27];
 	char nombre[30];
 	char apellido[30];
 	int edad;

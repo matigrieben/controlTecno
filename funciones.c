@@ -159,7 +159,7 @@ int contrasena()
   return status;
 }
 
-int opcionesMuenu()
+int opcionesMenu()
 {
 	int opcion;
 	printf("Elija una opcion del menu:\n");
@@ -172,14 +172,6 @@ int opcionesMuenu()
 	
 	return opcion;
 }
-
-
-
-
-
-
-
-
 
 void liberarListaUsuarios(struct usuarios *h)
 {
