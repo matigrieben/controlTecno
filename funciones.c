@@ -34,7 +34,8 @@ int cargarArchivo(int *uart0_filestream)
 	
 	printf("ingrese los datos del nuevo usuario: \n");
 	printf("pase la tarjeta del nuevo usuario \n "); //tiene que ser leido del rfid
-	
+	while(1)
+	{
 	if (*uart0_filestream != -1)
 	{
 		rx_length = read(*uart0_filestream, (void *)rx_buffer, 100);				
@@ -76,7 +77,7 @@ int cargarArchivo(int *uart0_filestream)
 					
 					fclose(fp);
 				}
-							
+			}			
 				return estatus;
 }
 }
