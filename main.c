@@ -60,7 +60,7 @@ int main(void)
 									switch(opcionesMenu())
 									{
 									case 1:
-									  status_opcion = cargarArchivo();
+									  status_opcion = cargarArchivo(&uart0_filestream);
 									  break;
 									case 2:
 									  status_opcion = modificarUsuario();

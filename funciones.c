@@ -23,39 +23,64 @@
 	\param ---- 
 	\return estatus: 1 error; 0 carga exitosa
 */
-int cargarArchivo()
+int cargarArchivo(int *uart0_filestream)
 {
 	FILE *fp;
 	int codigo, edad, dni, estatus;
 	char nombre[30], apellido[30];
+	char vector[27];
+	int rx_length = 0, hola = 0, contador = 0;
+	unsigned char rx_buffer[100];
 	
 	printf("ingrese los datos del nuevo usuario: \n");
-	printf("codigo "); //tiene que ser leido del rfid
-	scanf("%d", &codigo);
-	printf("nombre "); 
-	scanf("%s", nombre);
-	printf("apellido "); 
-	scanf("%s", apellido);
-	printf("edad "); 
-	scanf("%d", &edad);
-	printf("dni "); 
-	scanf("%d", &dni);
-	printf("rango del nuevo usuario: (1 administrador, 2 usuario normal \n"); 
-	scanf("%d", &estatus);
+	printf("pase la tarjeta del nuevo usuario \n "); //tiene que ser leido del rfid
 	
-	fp=fopen("usuarios.txt", "a+");
-	if(fp!= NULL)
+	if (*uart0_filestream != -1)
 	{
-		fprintf(fp, "%d,%s,%s,%d,%d,%d\n", codigo, nombre, apellido, edad, dni, estatus);
-		estatus= 0;
-	}
-	else estatus=1;
-	
-	fclose(fp);
-	
-	return estatus;
+		rx_length = read(*uart0_filestream, (void *)rx_buffer, 100);				
+		if (rx_length > 0)
+		{	
+			hola = hola + rx_length;
+			while(contador < rx_length && hola < 27)
+			{
+			  vector[(hola - rx_length + contador)] = rx_buffer[contador];
+			  contador++;
+			}
+			contador = 0;
+			if(hola > 25)
+				{	
+					vector[27] = '\0'; 	
+					printf("hola %d    bytes read : %s\n", hola, vector);
+					rx_length = 0;
+					hola = 0;
+					contador = 0;
+					
+					printf("nombre "); 
+					scanf("%s", nombre);
+					printf("apellido "); 
+					scanf("%s", apellido);
+					printf("edad "); 
+					scanf("%d", &edad);
+					printf("dni "); 
+					scanf("%d", &dni);
+					printf("rango del nuevo usuario: (1 administrador, 2 usuario normal \n"); 
+					scanf("%d", &estatus);
+					
+					fp=fopen("usuarios.txt", "a+");
+					if(fp!= NULL)
+					{
+						fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vector, nombre, apellido, edad, dni, estatus);
+						estatus= 0;
+					}
+					else estatus=1;
+					
+					fclose(fp);
+				}
+							
+				return estatus;
 }
-
+}
+}
 /**
 	\fn void log(char *usuario)
 	\brief crea un archivo con la hora en la que la tarjeta fue leida 
