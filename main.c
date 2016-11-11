@@ -72,6 +72,7 @@ int main(void)
 								}
 								else printf("Contraseña incorrecta");
 							}
+						tcflush(uart0_filestream, TCIFLUSH);	//elimina buffer
 					}
 				}
 			}
