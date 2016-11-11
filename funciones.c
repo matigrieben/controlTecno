@@ -28,6 +28,7 @@
 int cargarArchivo(int uart0_filestream)
 {
 	FILE *fp;
+	int flag=1;
 	int codigo, edad, dni, estatus;
 	char nombre[30], apellido[30];
 	char vector[27];
@@ -37,7 +38,7 @@ int cargarArchivo(int uart0_filestream)
 	
 	printf("ingrese los datos del nuevo usuario: \n");
 	printf("pase la tarjeta del nuevo usuario \n "); //tiene que ser leido del rfid
-	while(1)
+	while(flag)
 	{
 	if (uart0_filestream != -1)
 	{
@@ -53,7 +54,14 @@ int cargarArchivo(int uart0_filestream)
 			contador = 0;
 			if(hola > 25)
 				{	
-					vector[26] = '\0'; 	
+					flag=0;
+					
+				}
+			}			
+
+}
+}
+vector[26] = '\0'; 	
 					printf("hola %d    bytes read : %s\n", hola, vector);
 					rx_length = 0;
 					hola = 0;
@@ -79,11 +87,7 @@ int cargarArchivo(int uart0_filestream)
 					else estatus=1;
 					
 					fclose(fp);
-				}
-			}			
-
-}
-}
+					
 return estatus;
 }
 /**
