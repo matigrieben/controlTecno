@@ -79,7 +79,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 {
 	FILE *fp; 
 	usuarios *nuevo = NULL, *pAux = NULL;
-	char codigo[30], nombre[30], apellido[30], edadString[4], dniString[8];
+	char codigo[30], nombre[30], apellido[30], edadString[8], dniString[8];
 	int estatus = 0;
 	fp = fopen(archivo, "r");
 	if(fp == NULL) estatus =0;
@@ -94,9 +94,9 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			strcpy(nuevo->apellido, apellido);
 			nuevo->edad = atoi(edadString);
 			nuevo->documento = atoi(dniString);
-			nuevo->rango = estatus; 
+			nuevo->rango = estatus;
 			nuevo->sig = NULL;
-			printf("%s ---- %d\n", nuevo->nombre, nuevo->edad);
+			printf("%s ---- %d edadstring:%s     %d\n", nuevo->nombre, nuevo->edad, edadString, nuevo->documento);
 			if(*h == NULL) 
 			{
 				*h = nuevo;
