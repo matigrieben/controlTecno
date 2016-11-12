@@ -10,12 +10,12 @@ typedef struct usuarios
 }usuarios;
 
 void logg(int); 
-int cargarArchivo(int);
+int nuevoUsuario(int);
 int ListarUsuarios(struct usuarios **, char *);
 void liberarListaUsuarios(struct usuarios *);
 void imprimirListaUsuarios(struct usuarios *);
 int paseUsuario(struct usuarios *, char *);
 void imprimirUsuarioEncontrado(struct usuarios *);
 int contrasena();
-
 int modificarUsuario();
+void stringTag();

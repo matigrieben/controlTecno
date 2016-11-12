@@ -1,12 +1,3 @@
-/**
-	\file funciones.c
-	\brief declaracion de funciones
-	\details 
-	\author 
-	\date 2016.mes.dia
-	\version 1.0.0
-*/
-
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -17,7 +8,7 @@
 #include <termios.h>
 
 /**
-	\fn int cargarArchivo()
+	\fn int nuevoUsuario()
 	\brief funcion para cargar usuarios nuevos en el archivo
 	\details permite cargar nuevos usuarios con su respectiva informacion (nombre, apellido, edad, dni, rango
 	\author 
@@ -25,70 +16,29 @@
 	\param ---- 
 	\return estatus: 1 error; 0 carga exitosa
 */
-int cargarArchivo(int uart0_filestream)
+int nuevoUsuario(int uart0_filestream)
 {
 	FILE *fp;
-	int flag=1;
-	int codigo, edad, dni, estatus;
-	char nombre[30], apellido[30];
-	char vector[27];
-	int rx_length = 0, hola = 0, contador = 0;
-	unsigned char rx_buffer[100];
-	tcflush(uart0_filestream, TCIFLUSH);
-	
-	printf("ingrese los datos del nuevo usuario: \n");
-	printf("pase la tarjeta del nuevo usuario \n "); //tiene que ser leido del rfid
-	while(flag)
-	{
-	if (uart0_filestream != -1)
-	{
-		rx_length = read(uart0_filestream, (void *)rx_buffer, 100);				
-		if (rx_length > 0)
-		{	
-			hola = hola + rx_length;
-			while(contador < rx_length && hola < 27)
-			{
-			  vector[(hola - rx_length + contador)] = rx_buffer[contador];
-			  contador++;
-			}
-			contador = 0;
-			if(hola > 25)
-				{	
-					flag=0;
-					
-				}
-			}			
-
-}
-}
-vector[26] = '\0'; 	
-					printf("hola %d    bytes read : %s\n", hola, vector);
-					rx_length = 0;
-					hola = 0;
-					contador = 0;
-					
-					printf("nombre "); 
-					scanf("%s", nombre);
-					printf("apellido "); 
-					scanf("%s", apellido);
-					printf("edad "); 
-					scanf("%d", &edad);
-					printf("dni "); 
-					scanf("%d", &dni);
-					printf("rango del nuevo usuario: (1 administrador, 2 usuario normal \n"); 
-					scanf("%d", &estatus);
-					
-					fp=fopen("usuarios.txt", "a+");
-					if(fp!= NULL)
-					{
-						fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vector, nombre, apellido, edad, dni, estatus);
-						estatus= 0;
-					}
-					else estatus=1;
-					
-					fclose(fp);
-					
-return estatus;
+	int flag=1, codigo, edad, dni, estatus = 0;
+	char nombre[30], apellido[30], vectorTag[27];
+	printf("Ingrese los datos del nuevo usuario:\n");
+	printf("Pase la tarjeta del nuevo usuario: ");
+	stringTag(uart0_filestream, vectorTag);
+	printf("nombre "); 
+	scanf("%s", nombre);
+	printf("apellido "); 
+	scanf("%s", apellido);
+	printf("edad "); 
+	scanf("%d", &edad);
+	printf("dni "); 
+	scanf("%d", &dni);
+	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
+	scanf("%d", &estatus);
+	fp=fopen("usuarios.txt", "a+");
+	if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
+	else estatus = 1;	
+	fclose(fp);	
+	return estatus;
 }
 /**
 	\fn void log(char *usuario)
@@ -102,19 +52,15 @@ return estatus;
 void logg(int dni) 
 {
 	FILE *fp;
-	
 	fp=fopen("log.txt","a");
-	if(fp!=NULL)
+	if(fp != NULL)
 	{
 		time_t t;
 		char *timeAux;
-		
 		time(&t);
-		timeAux=ctime(&t); //ctime toma la variable time_t  que contiene la hora actual y la convierte en una cadena de fecha y hora.
-		
-		fprintf(fp,"usuario: %d, %s",dni,timeAux);
+		timeAux = ctime(&t); //ctime toma la variable time_t  que contiene la hora actual y la convierte en una cadena de fecha y hora.
+		fprintf(fp,"usuario: %d, %s\n", dni, timeAux);
 	}
-		
 	fclose(fp); 
 }
 
@@ -133,9 +79,8 @@ int ListarUsuarios(usuarios **h, char *archivo)
 {
 	FILE *fp; 
 	usuarios *nuevo = NULL, *pAux = NULL;
-	char codigo[30], nombre[30], apellido[30], edadString[3], dniString[8];
-	int estatus=0;
-	
+	char codigo[30], nombre[30], apellido[30], edadString[4], dniString[8];
+	int estatus = 0;
 	fp = fopen(archivo, "r");
 	if(fp == NULL) estatus =0;
 	else
@@ -148,16 +93,14 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			strcpy(nuevo->nombre, nombre);
 			strcpy(nuevo->apellido, apellido);
 			nuevo->edad = atoi(edadString);
-			nuevo->documento= atoi(dniString);
-			nuevo->rango=estatus; 
-			
+			nuevo->documento = atoi(dniString);
+			nuevo->rango = estatus; 
 			nuevo->sig = NULL;
 			if(*h == NULL) 
 			{
 				*h = nuevo;
 				estatus=1;
 				pAux = *h;
-
 			}
 			else
 			{
@@ -183,13 +126,10 @@ int ListarUsuarios(usuarios **h, char *archivo)
 int contrasena()
 {
   char pass[20] = "admin123", pass_ingresada[20] = "";
-  int status = 0;
-  
+  int status = 0; 
   printf("Pass administrador: ");
   scanf("%s", pass_ingresada);
-  if(!strcmp(pass, pass_ingresada))
-    status = 1;
-  
+  if(!strcmp(pass, pass_ingresada)) status = 1;
   return status;
 }
 
@@ -201,9 +141,9 @@ int opcionesMenu()
 	printf("Cargar nuevo usuario (1)\n");
 	printf("Modificar usuario    (2)\n");
 	printf("Eliminar usuario     (3)\n");
+	printf("Finalizar programa   (4)\n");
 	printf("==========================\n");
 	scanf("%d", &opcion);
-	
 	return opcion;
 }
 
@@ -246,8 +186,9 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 			if(!strcmp(h->codigo, codigoBuscar))
 			{
 				flag = h->rango;
-				if(flag==2)
-					imprimirUsuarioEncontrado(h);
+				if(flag==2) imprimirUsuarioEncontrado(h);
+				imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+				logg(h->documento);
 			}
 			h = h->sig;
 		}
@@ -264,37 +205,40 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 	return;
 }
 
-
-
 int modificarUsuario(usuarios **h)
 {
-	/*
-	 * 
-	 * 
-	//----- CHECK FOR ANY RX BYTES -----
-	if (uart0_filestream != -1)
-	{
-		// Read up to 255 characters from the port if they are there
-		unsigned char rx_buffer[256];
-		int rx_length = read(uart0_filestream, (void*)rx_buffer, 255);		//Filestream, buffer to store in, number of bytes to read (max)
-		if (rx_length < 0)
-		{
-			//An error occured (will occur if there are no bytes)
-		}
-		else if (rx_length == 0)
-		{
-			//No data waiting
-		}
-		else
-		{
-			//Bytes received
-			rx_buffer[rx_length] = '\0';
-			printf("%i bytes read : %s\n", rx_length, rx_buffer);
-		}
-	}
-	* 
-	* */
-	
-	//while(
+	int status;
+	return status;
 }
 
+void stringTag(int uart0_filestream, char vector[27])
+{
+    int rx_length = 0, hola = 0, contador = 0, flag = 1;
+	unsigned char rx_buffer[100];
+    tcflush(uart0_filestream, TCIFLUSH);
+	while(flag)
+	{
+		if (uart0_filestream != -1)
+		{
+			rx_length = read(uart0_filestream, (void *)rx_buffer, 100);				
+			if (rx_length > 0)
+			{	
+				hola = hola + rx_length;
+				while(contador < rx_length && hola < 27)
+				{
+				  vector[(hola - rx_length + contador)] = rx_buffer[contador];
+				  contador++;
+				}
+				contador = 0;
+				if(hola > 25)
+				{	
+					flag=0;
+					vector[26] = '\0'; 	
+					printf("hola %d    bytes read : %s\n", hola, vector);		
+				}
+			}			
+
+		}
+	}
+	return;
+}

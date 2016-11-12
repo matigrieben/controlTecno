@@ -1,4 +1,3 @@
-//comentario 
 #include <stdio.h>
 #include <unistd.h>			
 #include <fcntl.h>			
@@ -7,7 +6,7 @@
 
 int main(void)
 {
-	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0;
+	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0, flag = 1;
 	usuarios *h=NULL;
 	struct termios options;
 	unsigned char rx_buffer[100];
@@ -30,7 +29,7 @@ int main(void)
 		estatusLista = ListarUsuarios(&h, "usuarios.txt"); //crear lista
 		if(estatusLista) //si se cargo la lista sin errores
 		{
-			while(1)
+			while(flag)
 			{
 				if (uart0_filestream != -1)
 				{
@@ -56,28 +55,34 @@ int main(void)
 								else if(estatusRango == -1) printf("No existen usuarios en lista");
 								else if(estatusRango == 2) {}
 								else if(contrasena())
-								{		  
+								{
 									switch(opcionesMenu())
 									{
 									case 1:
-									  status_opcion = cargarArchivo(uart0_filestream);
+									  status_opcion = nuevoUsuario(uart0_filestream);
 									  break;
-									case 2:
+									/*case 2:
 									  status_opcion = modificarUsuario();
-									  break;
+									  break;*/
 									/*case 3:
 									  status_opcion = eliminarUsuario();
 									  break;*/
+									  case 4:
+									  flag = 0;
+									  liberarListaUsuarios(h);
+									  break;
+									  default: printf("No ingreso una opcion valida!\n");
 									}
 								}
 								else printf("Contraseña incorrecta");
+								tcflush(uart0_filestream, TCIFLUSH);	//elimina buffer
 							}
-						tcflush(uart0_filestream, TCIFLUSH);	//elimina buffer
 					}
 				}
 			}
 		}	
 	}
 	close(uart0_filestream);
+	printf("Programa finalizado!\n");
 	return 0;	
 }
