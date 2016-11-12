@@ -18,4 +18,4 @@ int paseUsuario(struct usuarios *, char *);
 void imprimirUsuarioEncontrado(struct usuarios *);
 int contrasena();
 int modificarUsuario();
-void stringTag();
+void stringTag(int, char *);

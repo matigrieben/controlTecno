@@ -59,7 +59,7 @@ void logg(int dni)
 		char *timeAux;
 		time(&t);
 		timeAux = ctime(&t); //ctime toma la variable time_t  que contiene la hora actual y la convierte en una cadena de fecha y hora.
-		fprintf(fp,"usuario: %d, %s\n", dni, timeAux);
+		fprintf(fp,"Usuario: %d, %s", dni, timeAux);
 	}
 	fclose(fp); 
 }
@@ -96,6 +96,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			nuevo->documento = atoi(dniString);
 			nuevo->rango = estatus; 
 			nuevo->sig = NULL;
+			printf("%d", nuevo->edad);
 			if(*h == NULL) 
 			{
 				*h = nuevo;
