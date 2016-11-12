@@ -96,7 +96,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			nuevo->documento = atoi(dniString);
 			nuevo->rango = estatus; 
 			nuevo->sig = NULL;
-			printf("%d", nuevo->edad);
+			printf("%s ---- %d\n", nuevo->nombre, nuevo->edad);
 			if(*h == NULL) 
 			{
 				*h = nuevo;
