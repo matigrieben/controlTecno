@@ -126,7 +126,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 */
 int contrasena()
 {
-  FILE *fp = fopen("pass.txt", "a");
+  FILE *fp = fopen("pass.txt", "r");
   char pass[20] = "", pass_ingresada[20] = "";
   int status = 0;
   if(fp != NULL)
@@ -135,11 +135,8 @@ int contrasena()
     printf("Pass administrador: ");
     scanf("%s", pass_ingresada);
     encriptar(pass_ingresada, strlen(pass_ingresada));
-    printf("paso %s\n", pass);
     if(!strcmp(pass, pass_ingresada)) status = 1;
-    printf("paso2 %d\n", status);
     fclose(fp);
-    printf("paso3\n");
   }
   return status;
 }
