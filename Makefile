@@ -1,6 +1,6 @@
 Author= "Matías Grieben"
 Curse= "R1042"
-TP= "TP9"
+TP= "proyecto"
 
 
 ##########################
