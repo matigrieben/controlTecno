@@ -1,9 +1,13 @@
 #include <stdio.h>
-#include <unistd.h>			
-#include <fcntl.h>			
-#include <termios.h>
-#include "funciones.h"
+#include <time.h>
+#include <stdlib.h>
 #include <string.h>
+#include "funciones.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 
 int main(void)
 {

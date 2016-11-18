@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 
 /**
 	\fn int nuevoUsuario()
@@ -32,6 +34,7 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
+		camara(dni);
 	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
 	scanf("%d", &estatus);
 	fp=fopen("usuarios.txt", "a+");
@@ -258,4 +261,24 @@ void encriptar(char* password, int cant)
       if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
       else password[i] = password[i]+13;    //Le sumo a la letra 13.
   }
+}
+
+void camara (int dni)
+{
+	int pepe;
+    int key = 0;    
+
+    IplImage *frame= NULL;
+    CvCapture* capture;
+    capture = cvCaptureFromCAM( -1 );
+    cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
+
+
+    do {
+        frame = cvQueryFrame( capture );
+        cvShowImage("frame", frame);
+    }while((key =cvWaitKey(1)) < 0);
+    
+		pepe=cvSaveImage(strcat((char)dni, ".jpg"), frame,0);
+		cvDestroyWindow( "imagen" );  
 }

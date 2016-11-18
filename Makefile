@@ -12,7 +12,7 @@ CC = gcc
 # Argumentos de compilacion el -g activa para hacer debuging en algun futuro
 C_PARAM = -c -g   
 # Argumentos de linkeo
-LD= -lm
+LD= -lm `pkg-config --libs opencv`
 
 
 ##########################
@@ -59,7 +59,7 @@ $(Exec): $(OBJ)
 	@echo "\n===================================================================================="
 	@echo "  Linking" $(OBJ)    
 	@echo "===================================================================================="
-	$(CC) -o $(Exec) $(OBJ) $(LD)
+	$(CC)  -o $(Exec) $(OBJ) $(LD)
 	@echo "\n===================================================================================="
 	@echo "  Finish: OK\n\n"
 
