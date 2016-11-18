@@ -265,9 +265,12 @@ void encriptar(char* password, int cant)
 
 void camara (int dni)
 {
-	int pepe;
+	int pepe, pepe2;
     int key = 0;    
-
+	char buf[15];
+	
+	sprintf(buf, "%d.jpg", dni);
+	
     IplImage *frame= NULL;
     CvCapture* capture;
     capture = cvCaptureFromCAM( -1 );
