@@ -82,7 +82,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 {
 	FILE *fp; 
 	usuarios *nuevo = NULL, *pAux = NULL;
-	char codigo[30], nombre[30], apellido[30], edadString[8], dniString[8];
+	char codigo[30], nombre[30], apellido[30], edadString[8] = "", dniString[8];
 	int estatus = 0;
 	fp = fopen(archivo, "r");
 	if(fp == NULL) estatus =0;
@@ -269,19 +269,22 @@ void camara (int dni)
     int key = 0;    
 	char buf[15];
 	
-	sprintf(buf, "%d	.jpg", dni);
+	sprintf(buf, "%d.jpg", dni);
 	
     IplImage *frame= NULL;
     CvCapture* capture;
     capture = cvCaptureFromCAM( -1 );
     cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
 
+    cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE);
+
 
     do {
         frame = cvQueryFrame( capture );
-        cvShowImage("frame", frame);
+        cvShowImage("imagen", frame);
     }while((key =cvWaitKey(1)) < 0);
     
-		pepe=cvSaveImage(strcat((char)dni, ".jpg"), frame,0);
-		cvDestroyWindow(buf);  
+		pepe=cvSaveImage(buf, frame,0);
+		cvDestroyWindow("imagen");  
+return;
 }
