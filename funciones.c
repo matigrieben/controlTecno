@@ -269,7 +269,7 @@ void camara (int dni)
     int key = 0;    
 	char buf[15];
 	
-	sprintf(buf, "%d.jpg", dni);
+	sprintf(buf, "%d	.jpg", dni);
 	
     IplImage *frame= NULL;
     CvCapture* capture;
@@ -283,5 +283,5 @@ void camara (int dni)
     }while((key =cvWaitKey(1)) < 0);
     
 		pepe=cvSaveImage(strcat((char)dni, ".jpg"), frame,0);
-		cvDestroyWindow( "imagen" );  
+		cvDestroyWindow(buf);  
 }
