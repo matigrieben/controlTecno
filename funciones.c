@@ -126,11 +126,18 @@ int ListarUsuarios(usuarios **h, char *archivo)
 */
 int contrasena()
 {
-  char pass[20] = "admin123", pass_ingresada[20] = "";
-  int status = 0; 
-  printf("Pass administrador: ");
-  scanf("%s", pass_ingresada);
-  if(!strcmp(pass, pass_ingresada)) status = 1;
+  FILE *fp = fopen("pass.txt", "a");
+  char pass[20] = "", pass_ingresada[20] = "";
+  int status = 0;
+  if(fp != NULL)
+  {
+    fscanf(fp, "%s", pass);
+    printf("Pass administrador: ");
+    scanf("%s", pass_ingresada);
+    encriptar(pass_ingresada, strlen(pass_ingresada));
+    if(!strcmp(pass, pass_ingresada)) status = 1;
+    fclose(fp);
+  }
   return status;
 }
 
@@ -242,4 +249,13 @@ void stringTag(int uart0_filestream, char vector[27])
 		}
 	}
 	return;
+}
+
+void encriptar(char* password, int cant)
+{  
+  int i; 
+  for(i = 0;i < cant; i++){                 //Mientras i no supere la longitud de la palabra.
+      if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
+      else password[i] = password[i]+13;    //Le sumo a la letra 13.
+  }
 }

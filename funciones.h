@@ -19,3 +19,4 @@ void imprimirUsuarioEncontrado(struct usuarios *);
 int contrasena();
 int modificarUsuario();
 void stringTag(int, char *);
+void encriptar(char *, int);

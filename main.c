@@ -3,6 +3,7 @@
 #include <fcntl.h>			
 #include <termios.h>
 #include "funciones.h"
+#include <string.h>
 
 int main(void)
 {
@@ -11,6 +12,15 @@ int main(void)
 	struct termios options;
 	unsigned char rx_buffer[100];
 	char vector[27];
+	
+	/*char pass[15];
+	printf("ingrese contraseña admin:\n");
+	scanf("%s", pass);
+	encriptar(pass, strlen(pass));
+	FILE *fp = fopen("pass.txt", "a");
+	fprintf(fp, "%s", pass);
+	fclose(fp);*/
+	
 	uart0_filestream = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NDELAY);
 	if (uart0_filestream == -1)
 	{
