@@ -100,7 +100,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			nuevo->rango = estatus;
 			nuevo->sig = NULL;
 			printf("%s ---- %d edadstring:%s     %d\n", nuevo->nombre, nuevo->edad, edadString, nuevo->documento);
-			if(*h == NULL) 
+			if(*h == NULL)
 			{
 				*h = nuevo;
 				estatus=1;
@@ -284,7 +284,10 @@ void camara (int dni)
         cvShowImage("imagen", frame);
     }while((key =cvWaitKey(1)) < 0);
     
-		pepe=cvSaveImage(buf, frame,0);
-		cvDestroyWindow("imagen");  
+		//pepe=cvSaveImage(buf, frame,0);
+		cvDestroyWindow("imagen");
+		//cvDestroyAllWindows();
+		//destroyAllWindows();
+		//destroyWindow("imagen");
 return;
 }
