@@ -35,6 +35,8 @@ int nuevoUsuario(int uart0_filestream)
 	printf("dni "); 
 	scanf("%d", &dni);
 		camara(dni);
+		cvStartWindowThread();
+
 	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
 	scanf("%d", &estatus);
 	fp=fopen("usuarios.txt", "a+");
@@ -257,7 +259,8 @@ void stringTag(int uart0_filestream, char vector[27])
 void encriptar(char* password, int cant)
 {  
   int i; 
-  for(i = 0;i < cant; i++){                 //Mientras i no supere la longitud de la palabra.
+  for(i = 0;i < cant; i++)
+  {                 //Mientras i no supere la longitud de la palabra.
       if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
       else password[i] = password[i]+13;    //Le sumo a la letra 13.
   }
@@ -265,7 +268,6 @@ void encriptar(char* password, int cant)
 
 void camara (int dni)
 {
-	int pepe, pepe2;
     int key = 0;    
 	char buf[15];
 	
@@ -284,10 +286,8 @@ void camara (int dni)
         cvShowImage("imagen", frame);
     }while((key =cvWaitKey(1)) < 0);
     
-		//pepe=cvSaveImage(buf, frame,0);
+		vSaveImage(buf, frame,0);
 		cvDestroyWindow("imagen");
-		//cvDestroyAllWindows();
-		//destroyAllWindows();
-		//destroyWindow("imagen");
-return;
+		cvReleaseCapture( &capture );
+
 }
