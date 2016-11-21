@@ -222,9 +222,13 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
 		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE); 
   		cvShowImage("Usuario", img);
-  		while((key = cvWaitKey(1)) < 0){}
-  		cvDestroyWindow("Usuario");
+  		if(h->rango == 1)
+		{
+			while((key = cvWaitKey(1)) < 0){}
+	  		cvDestroyWindow("Usuario");
+		}
 	}
+	cvStartWindowThread();
 	return;
 }
 
