@@ -226,9 +226,9 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 		{
 			while((key = cvWaitKey(1)) < 0){}
 	  		cvDestroyWindow("Usuario");
+			cvStartWindowThread();
 		}
 	}
-	cvStartWindowThread();
 	return;
 }
 
@@ -275,8 +275,8 @@ void encriptar(char* password, int cant)
 	int i; 
 	for(i = 0;i < cant; i++)
 	{
-	    if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
-	    else password[i] = password[i]+13;    //Le sumo a la letra 13.
+	    if(i%2 != 0) password[i] = password[i]-2;    //Le resto a la letra 13.
+	    else password[i] = password[i]+2;    //Le sumo a la letra 4.
 	}
 }
 
@@ -302,7 +302,7 @@ void camara (int dni)
 
 int nuevaPass()
 {
-	FILE *fp = fopen("pass.txt", "a+");
+	FILE *fp = fopen("pass.txt", "w");
 	char pass_nueva[20];
 	int status = 0;
 	printf("Ingrese la nueva Pass del administrador: ");
