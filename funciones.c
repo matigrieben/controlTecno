@@ -34,11 +34,11 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
-		camara(dni);
-		cvStartWindowThread();
-
+	camara(dni);
+	cvStartWindowThread();
 	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
 	scanf("%d", &estatus);
+	printf("Usuario agregado exitosamente!\n");
 	fp=fopen("usuarios.txt", "a+");
 	if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
 	else estatus = 1;	
@@ -154,7 +154,8 @@ int opcionesMenu()
 	printf("Cargar nuevo usuario (1)\n");
 	printf("Modificar usuario    (2)\n");
 	printf("Eliminar usuario     (3)\n");
-	printf("Finalizar programa   (4)\n");
+	printf("Cambiar contraseña   (4)\n");
+	printf("Finalizar programa   (5)\n");
 	printf("==========================\n");
 	scanf("%d", &opcion);
 	return opcion;
@@ -211,9 +212,18 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 
 void imprimirUsuarioEncontrado(struct usuarios *h)
 {
+	char buf[15];
+	IplImage *img = NULL;
+	int key = 0;
 	if(h != NULL)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
+		sprintf(buf, "%d.jpg", h->documento);
+		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
+		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE); 
+  		cvShowImage("Usuario", img);
+  		while((key = cvWaitKey(1)) < 0){}
+  		cvDestroyWindow("Usuario");
 	}
 	return;
 }
@@ -270,24 +280,18 @@ void camara (int dni)
 {
     int key = 0;    
 	char buf[15];
-	
 	sprintf(buf, "%d.jpg", dni);
-	
     IplImage *frame= NULL;
     CvCapture* capture;
     capture = cvCaptureFromCAM( -1 );
     cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
-
     cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE);
-
-
-    do {
+    do 
+    {
         frame = cvQueryFrame( capture );
         cvShowImage("imagen", frame);
-    }while((key =cvWaitKey(1)) < 0);
-    
-		cvSaveImage(buf, frame,0);
-		cvDestroyWindow("imagen");
-		cvReleaseCapture( &capture );
-
+    }while((key = cvWaitKey(1)) < 0);    
+	cvSaveImage(buf, frame,0);
+	cvDestroyWindow("imagen");
+	cvReleaseCapture( &capture );
 }
