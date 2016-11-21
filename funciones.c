@@ -286,7 +286,7 @@ void camara (int dni)
         cvShowImage("imagen", frame);
     }while((key =cvWaitKey(1)) < 0);
     
-		vSaveImage(buf, frame,0);
+		cvSaveImage(buf, frame,0);
 		cvDestroyWindow("imagen");
 		cvReleaseCapture( &capture );
 
