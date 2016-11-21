@@ -272,12 +272,12 @@ void stringTag(int uart0_filestream, char vector[27])
 
 void encriptar(char* password, int cant)
 {  
-  int i; 
-  for(i = 0;i < cant; i++)
-  {                 //Mientras i no supere la longitud de la palabra.
-      if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
-      else password[i] = password[i]+13;    //Le sumo a la letra 13.
-  }
+	int i; 
+	for(i = 0;i < cant; i++)
+	{
+	    if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
+	    else password[i] = password[i]+13;    //Le sumo a la letra 13.
+	}
 }
 
 void camara (int dni)
@@ -298,4 +298,21 @@ void camara (int dni)
 	cvSaveImage(buf, frame,0);
 	cvDestroyWindow("imagen");
 	cvReleaseCapture( &capture );
+}
+
+int nuevaPass()
+{
+	FILE *fp = fopen("pass.txt", "a+");
+	char pass_nueva[20];
+	int status = 0;
+	printf("Ingrese la nueva Pass del administrador: ");
+	scanf("%s", pass_nueva);
+	encriptar(pass_nueva, strlen(pass_nueva));
+	if(fp != NULL)
+	{
+		fprintf(fp, "%s", pass_nueva);
+		status = 1;
+    	fclose(fp);
+  	}
+  	return status;
 }

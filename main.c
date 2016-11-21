@@ -72,6 +72,10 @@ int main(void)
 									/*case 3:
 									  status_opcion = eliminarUsuario();
 									  break;*/
+									  case 4:
+									  if(nuevaPass()) printf("Cambio de contrasena exitoso!\n");
+									  else printf("Error en el cambio de contrasena!\n");
+									  break;
 									  case 5:
 									  flag = 0;
 									  liberarListaUsuarios(h);
