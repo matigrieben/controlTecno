@@ -34,8 +34,8 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
-	camara(dni);
-	cvStartWindowThread();
+		camara(dni);
+		cvStartWindowThread();
 	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
 	scanf("%d", &estatus);
 	printf("Usuario agregado exitosamente!\n");
@@ -79,7 +79,6 @@ void logg(int dni)
 	\param *archivo nombre del archivo que contiene la informacion de los usuarios
 	\return estatus 0 si hay error, 1 si se cargo la estructura
 */
-
 int ListarUsuarios(usuarios **h, char *archivo)
 {
 	FILE *fp; 
@@ -146,6 +145,16 @@ int contrasena()
   return status;
 }
 
+/**
+	\fn int opcionesMenu()
+	\brief opciones brinadas para el administrador
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param 
+	\param 
+	\return el numero de opcion elegida
+*/
 int opcionesMenu()
 {
 	int opcion;
@@ -183,11 +192,11 @@ void imprimirListaUsuarios(struct usuarios *h)
 	\fn int paseUsuario(struct usuarios *h, char *codigoBuscar)
 	\brief busca en la estructura si existe el codigo de tarjeta ingresado
 	\details Sin detalles
-	\author Ariel Fischein (ariifischbein@gmail.com)
+	\author 
 	\date 2016.mes.dia
 	\param 
 	\param 
-	\return 
+	\return 0 si no se encontro el codigo(usuario), -1 si no existen usuarios (lista vacia), 1 si es admin, 2 si es usuario normal
 */
 int paseUsuario(struct usuarios *h, char *codigoBuscar)
 {
@@ -234,8 +243,7 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 
 int modificarUsuario(usuarios **h)
 {
-	int status;
-	return status;
+	
 }
 
 void stringTag(int uart0_filestream, char vector[27])
@@ -270,36 +278,45 @@ void stringTag(int uart0_filestream, char vector[27])
 	return;
 }
 
-void encriptar(char* password, int cant)
-{  
-	int i; 
-	for(i = 0;i < cant; i++)
-	{
-	    if(i%2 != 0) password[i] = password[i]-2;    //Le resto a la letra 13.
-	    else password[i] = password[i]+2;    //Le sumo a la letra 4.
-	}
-}
-
+/**
+	\fn void camara (int dni)
+	\brief abre la camara, y saca la foto guardandola con el dni del usuario 
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param dni del usuario que se esta ingresando al sistema, para guardar la foto con ese nombre
+	\return 
+*/
 void camara (int dni)
 {
     int key = 0;    
 	char buf[15];
-	sprintf(buf, "%d.jpg", dni);
+	sprintf(buf, "%d.jpg", dni); //concatenar el dni con.jpg. Es necesario que sea char, ya que asi lo pide la funcion cvSave...
     IplImage *frame= NULL;
     CvCapture* capture;
     capture = cvCaptureFromCAM( -1 );
     cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
-    cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE);
+    cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
     do 
     {
         frame = cvQueryFrame( capture );
         cvShowImage("imagen", frame);
-    }while((key = cvWaitKey(1)) < 0);    
-	cvSaveImage(buf, frame,0);
-	cvDestroyWindow("imagen");
-	cvReleaseCapture( &capture );
+    }while((key = cvWaitKey(1)) < 0);    //cuando una tecla es precionada
+	cvSaveImage(buf, frame,0); //guardar la imagen
+	cvDestroyWindow("imagen"); //cierra la ventana generada
+	cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
 }
 
+/**
+	\fn int nuevaPass()
+	\brief le permite al administrador cambiar la contraseña
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param 
+	\param 
+	\return 0 si hay error , 1 si el cambio fue exitoso
+*/
 int nuevaPass()
 {
 	FILE *fp = fopen("pass.txt", "w");
@@ -315,4 +332,26 @@ int nuevaPass()
     	fclose(fp);
   	}
   	return status;
+}
+
+/**
+	\fn void encriptar(char* password, int cant)
+	\brief encripta  contrseña 
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param 
+	\param 
+	\return 
+*/
+void encriptar(char* password, int cant)
+{  
+	int i; 
+	for(i = 0;i < cant; i++)
+	{
+	    if(i%2 != 0) 
+			password[i] = password[i]-2;    //Le resto a la letra 13.
+	    else 
+			password[i] = password[i]+2;    //Le sumo a la letra 4.
+	}
 }

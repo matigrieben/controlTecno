@@ -55,7 +55,7 @@ int main(void)
 								rx_length = 0;
 								hola = 0;
 								contador = 0;
-								estatusRango = paseUsuario(h, vector);
+								estatusRango = paseUsuario(h, vector); //vector=codigo a buscar
 								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador");
 								else if(estatusRango == -1) printf("No existen usuarios en lista");
 								else if(estatusRango == 2) {}
@@ -65,7 +65,7 @@ int main(void)
 									{
 									case 1:
 									  status_opcion = nuevoUsuario(uart0_filestream);
-									  break;
+									break;
 									/*case 2:
 									  status_opcion = modificarUsuario();
 									  break;*/
@@ -73,7 +73,8 @@ int main(void)
 									  status_opcion = eliminarUsuario();
 									  break;*/
 									  case 4:
-									  if(nuevaPass()) printf("Cambio de contrasena exitoso!\n");
+									  if(nuevaPass()) 
+										printf("Cambio de contrasena exitoso!\n");
 									  else printf("Error en el cambio de contrasena!\n");
 									  break;
 									  case 5:
