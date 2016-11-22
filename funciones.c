@@ -40,7 +40,8 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &estatus);
 	printf("Usuario agregado exitosamente!\n");
 	fp=fopen("usuarios.txt", "a+");
-	if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
+	if(fp!= NULL) 
+		fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
 	else estatus = 1;	
 	fclose(fp);	
 	return estatus;
@@ -190,7 +191,7 @@ void imprimirListaUsuarios(struct usuarios *h)
 
 /**
 	\fn int paseUsuario(struct usuarios *h, char *codigoBuscar)
-	\brief busca en la estructura si existe el codigo de tarjeta ingresado
+	\brief busca en la estructura si existe el codigo de tarjeta ingresado y llama a la funcion que imprime el usuario encontrado
 	\details Sin detalles
 	\author 
 	\date 2016.mes.dia
@@ -209,8 +210,11 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 			if(!strcmp(h->codigo, codigoBuscar))
 			{
 				flag = h->rango;
-				if(flag==2) imprimirUsuarioEncontrado(h);
-				imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+				if(flag==2)
+				{ //imprimirUsuarioEncontrado(h);
+					imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+					cvStartWindowThread();
+				}
 				logg(h->documento);
 			}
 			h = h->sig;
@@ -219,7 +223,7 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 	return flag;
 }
 
-void imprimirUsuarioEncontrado(struct usuarios *h)
+void imprimirUsuarioEncontrado(struct *h)
 {
 	char buf[15];
 	IplImage *img = NULL;
@@ -235,7 +239,7 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 		{
 			while((key = cvWaitKey(1)) < 0){}
 	  		cvDestroyWindow("Usuario");
-			cvStartWindowThread();
+			//cvStartWindowThread();
 		}
 	}
 	return;
@@ -301,10 +305,11 @@ void camara (int dni)
     {
         frame = cvQueryFrame( capture );
         cvShowImage("imagen", frame);
-    }while((key = cvWaitKey(1)) < 0);    //cuando una tecla es precionada
-	cvSaveImage(buf, frame,0); //guardar la imagen
-	cvDestroyWindow("imagen"); //cierra la ventana generada
-	cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
+    }
+    while((key = cvWaitKey(1)) < 0);    
+		cvSaveImage(buf, frame,0); //guardar la imagen
+		cvDestroyWindow("imagen"); //cierra la ventana generada
+		cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
 }
 
 /**

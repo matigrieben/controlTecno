@@ -58,7 +58,7 @@ int main(void)
 								estatusRango = paseUsuario(h, vector); //vector=codigo a buscar
 								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador");
 								else if(estatusRango == -1) printf("No existen usuarios en lista");
-								else if(estatusRango == 2) {}
+								else if(estatusRango == 2) {} //pasar la imagen por soket
 								else if(contrasena())
 								{
 									switch(opcionesMenu())
