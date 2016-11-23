@@ -64,7 +64,16 @@ int main(void)
 									switch(opcionesMenu())
 									{
 									case 1:
-									  status_opcion = nuevoUsuario(uart0_filestream);
+									  if(!nuevoUsuario(uart0_filestream))
+									  {
+									  	 liberarListaUsuarios(h);
+									  	 if(!ListarUsuarios(&h, "usuarios.txt"))
+									  	 {
+									  	 	printf("Error al ingresar en lista\n");
+									  	 	flag = 0;
+									  	 	liberarListaUsuarios(h);
+									  	 }
+									  }
 									break;
 									/*case 2:
 									  status_opcion = modificarUsuario();
