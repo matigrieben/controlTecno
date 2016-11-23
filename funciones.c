@@ -238,7 +238,8 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
   		//if(h->rango == 1)
 		//{
 			//while((key = cvWaitKey(1)) < 0){}
-			if(cvWaitKey(3000)
+			if(cvWaitKey(3000) == -1)
+				cvDestroyWindow("Usuario");
 			//sleep(3);
             		//cvDestroyWindow("Usuario");
 			//cvStartWindowThread();
