@@ -138,7 +138,7 @@ int contrasena()
     fscanf(fp, "%s", pass);
     printf("Pass administrador: ");
     scanf("%s", pass_ingresada);
-    encriptar(pass_ingresada, strlen(pass_ingresada));
+    //encriptar(pass_ingresada, strlen(pass_ingresada));
     if(!strcmp(pass, pass_ingresada)) status = 1;
     fclose(fp);
   }
@@ -210,7 +210,8 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 			{
 				flag = h->rango;
 				if(flag==2) imprimirUsuarioEncontrado(h);
-				//imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+				else imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+				cvStartWindowThread();
 				logg(h->documento);
 			}
 			h = h->sig;
@@ -227,7 +228,7 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 	if(h != NULL)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
-		/*sprintf(buf, "%d.jpg", h->documento);
+		sprintf(buf, "%d.jpg", h->documento);
 		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
 		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE); 
   		cvShowImage("Usuario", img);
@@ -236,7 +237,7 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 			while((key = cvWaitKey(1)) < 0){}
 	  		cvDestroyWindow("Usuario");
 			//cvStartWindowThread();
-		}*/
+		}
 	}
 	return;
 }
@@ -349,9 +350,9 @@ void encriptar(char* password, int cant)
 	int i; 
 	for(i = 0;i < cant; i++)
 	{
-	    if(i%2 != 0) 
-			password[i] = password[i]-2;    //Le resto a la letra 13.
+	    if(i%2 == 0) 
+			password[i] = password[i]-2;    //Le resto a la letra 2.
 	    else 
-			password[i] = password[i]+2;    //Le sumo a la letra 4.
+			password[i] = password[i]+2;    //Le sumo a la letra 2.
 	}
 }
