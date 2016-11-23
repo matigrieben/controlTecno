@@ -198,7 +198,7 @@ void imprimirListaUsuarios(struct usuarios *h)
 	\param 
 	\return 0 si no se encontro el codigo(usuario), -1 si no existen usuarios (lista vacia), 1 si es admin, 2 si es usuario normal
 */
-int paseUsuario(struct usuarios *h, char *codigoBuscar)
+int paseUsuario(struct usuarios *h, char *codigoBuscar, int *si)
 {
 	int flag = 0;
 	if(h == NULL) flag = -1;
@@ -211,8 +211,10 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 				flag = h->rango;
 				if(flag==2)
 				{ //imprimirUsuarioEncontrado(h);
-					imprimirUsuarioEncontrado(h); //para admin, eliminar despues
-					//cvStartWindowThread();
+					imprimirUsuarioEncontrado(h, *si); //para admin, eliminar despues
+					//if(*si) 
+					cvStartWindowThread();
+					*si = 0;
 				}
 				logg(h->documento);
 			}
@@ -222,7 +224,7 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 	return flag;
 }
 
-void imprimirUsuarioEncontrado(struct usuarios *h)
+void imprimirUsuarioEncontrado(struct usuarios *h, int si)
 {
 	char buf[15];
 	IplImage *img = NULL;
@@ -231,20 +233,28 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
 		sprintf(buf, "%d.jpg", h->documento);
+		printf("hola1\n");
 		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
+		printf("hola2\n");
 		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
+		printf("hola3\n");
   		cvShowImage("Usuario", img);
+		printf("hola4\n");
 		//sleep(5);
   		//if(h->rango == 1)
 		//{
 			//while((key = cvWaitKey(1)) < 0){}
-  			printf("entra en sleep");
-			if(cvWaitKey(3000) == -1)
-			{
+  			printf("entra en sleep\n");
+			//if(cvWaitKey(3000) == -1)
+			if(si)cvWaitKey(3000);
+			else sleep(3);
+			printf("hola5\n");
+			//{
 				cvDestroyWindow("Usuario");
-				cvDestroyAllWindows();
-				printf("sale de sleep");
-			}
+				printf("hola1\n");
+				//cvDestroyAllWindows();
+				printf("sale de sleep\n");
+			//}
 			//sleep(3);
             		//cvDestroyWindow("Usuario");
 			//cvStartWindowThread();
