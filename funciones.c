@@ -42,6 +42,8 @@ int nuevoUsuario(int uart0_filestream)
 	fp=fopen("usuarios.txt", "a+");
 	if(fp!= NULL) 
 		fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
+		liberarListaUsuarios(h);
+		imprimirListaUsuarios(h);
 	else estatus = 1;	
 	fclose(fp);	
 	return estatus;
