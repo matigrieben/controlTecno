@@ -209,11 +209,11 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 			if(!strcmp(h->codigo, codigoBuscar))
 			{
 				flag = h->rango;
-				if(flag==1)
-				{ //imprimirUsuarioEncontrado(h);
+				//if(flag==1)
+				//{ //imprimirUsuarioEncontrado(h);
 					imprimirUsuarioEncontrado(h); //para admin, eliminar despues
-					cvStartWindowThread();
-				}
+					//cvStartWindowThread();
+				//}
 				logg(h->documento);
 			}
 			h = h->sig;
@@ -232,14 +232,16 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
 		sprintf(buf, "%d.jpg", h->documento);
 		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
-		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE); 
+		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
   		cvShowImage("Usuario", img);
-  		if(h->rango == 1)
-		{
-			while((key = cvWaitKey(1)) < 0){}
-	  		cvDestroyWindow("Usuario");
+		//sleep(5);
+  		//if(h->rango == 1)
+		//{
+			//while((key = cvWaitKey(1)) < 0){}
+			cvWaitKey(0);
+	  		//cvDestroyWindow("Usuario");
 			//cvStartWindowThread();
-		}
+		//}
 	}
 	return;
 }
