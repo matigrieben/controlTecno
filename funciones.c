@@ -210,7 +210,7 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar, IplImage **img)
 			if(!strcmp(h->codigo, codigoBuscar))
 			{
 				flag = h->rango;
-				if(flag==2)
+				if(flag==1)
 				{ //imprimirUsuarioEncontrado(h);
 					imprimirUsuarioEncontrado(h, &img); //para admin, eliminar despues
 					cvStartWindowThread();
