@@ -16,6 +16,7 @@ int main(void)
 	struct termios options;
 	unsigned char rx_buffer[100];
 	char vector[27];
+	IplImage *img = NULL;
 	uart0_filestream = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NDELAY);
 	if (uart0_filestream == -1)
 	{
@@ -42,7 +43,7 @@ int main(void)
 					if (rx_length > 0)
 					{	
 						hola = hola + rx_length;
-						while(contador < rx_length && hola < 26)
+						while(contador < rx_length && hola < 27)
 						{
 						  vector[(hola - rx_length + contador)] = rx_buffer[contador];
 						  contador++;
@@ -55,7 +56,7 @@ int main(void)
 								rx_length = 0;
 								hola = 0;
 								contador = 0;
-								estatusRango = paseUsuario(h, vector); //vector=codigo a buscar
+								estatusRango = paseUsuario(h, vector, &img); //vector=codigo a buscar
 								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador");
 								else if(estatusRango == -1) printf("No existen usuarios en lista");
 								else if(estatusRango == 2) {} //pasar la imagen por soket

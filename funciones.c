@@ -199,7 +199,7 @@ void imprimirListaUsuarios(struct usuarios *h)
 	\param 
 	\return 0 si no se encontro el codigo(usuario), -1 si no existen usuarios (lista vacia), 1 si es admin, 2 si es usuario normal
 */
-int paseUsuario(struct usuarios *h, char *codigoBuscar)
+int paseUsuario(struct usuarios *h, char *codigoBuscar, IplImage **img)
 {
 	int flag = 0;
 	if(h == NULL) flag = -1;
@@ -212,7 +212,7 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 				flag = h->rango;
 				if(flag==2)
 				{ //imprimirUsuarioEncontrado(h);
-					imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+					imprimirUsuarioEncontrado(h, &img); //para admin, eliminar despues
 					cvStartWindowThread();
 				}
 				logg(h->documento);
@@ -223,16 +223,16 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 	return flag;
 }
 
-void imprimirUsuarioEncontrado(struct *h)
+void imprimirUsuarioEncontrado(struct usuarios *h, IplImage ***img)
 {
 	char buf[15];
-	IplImage *img = NULL;
+	//IplImage *img = NULL;
 	int key = 0;
 	if(h != NULL)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
 		sprintf(buf, "%d.jpg", h->documento);
-		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
+		**(img) = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
 		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE); 
   		cvShowImage("Usuario", img);
   		if(h->rango == 1)

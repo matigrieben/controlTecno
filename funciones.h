@@ -1,3 +1,14 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
+//#include "funciones.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+
 typedef struct usuarios
 {
 	char codigo[27];
@@ -14,8 +25,8 @@ int nuevoUsuario(int);
 int ListarUsuarios(struct usuarios **, char *);
 void liberarListaUsuarios(struct usuarios *);
 void imprimirListaUsuarios(struct usuarios *);
-int paseUsuario(struct usuarios *, char *);
-void imprimirUsuarioEncontrado(struct usuarios *);
+int paseUsuario(struct usuarios *, char *, IplImage **);
+void imprimirUsuarioEncontrado(struct usuarios *, IplImage ***);
 int contrasena();
 int modificarUsuario();
 void stringTag(int, char *);
