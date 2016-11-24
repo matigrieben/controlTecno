@@ -35,7 +35,7 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
-	if(verificarExistencia(dni, "usuarios.txt");
+	if(verificarExistencia(dni, "usuarios.txt"))
 	{
 		camara(dni);
 		printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
@@ -413,4 +413,111 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 	
 	fclose(fp);
 	return flag;
+}
+
+void borrar(struct usuario **h)
+{
+int dni,enc=0,contador=0;
+struct *p=NULL,*aux=NULL, *aux2=NULL;
+printf("ingrese el dni del usuario que quiere borrar\n");
+scanf("%d",&dni);
+p=*h;
+aux2=*h;
+while(enc!=1)
+	{
+	if(p->sig!=NULL)
+	{
+	aux=p->sig;
+	}
+	if(p->documento==dni)
+		{
+		if(contador==0)
+			{
+			free(p);
+			*h=aux;
+			enc=1;
+			}
+		if(p->sig==NULL)
+			{
+			free(p);
+			aux2->sig=NULL;
+			enc=1;
+			}
+		else
+			{
+			aux2->sig=aux;
+			free(p);
+			enc=1;
+			}
+		}
+	else
+	{
+		p=p->sig;
+		if(contador!=0)
+		{
+		aux2=aux->sig;
+		}
+	}
+	contador++;
+	}
+}
+
+void modificar(usuarios **h)
+{
+int dni,aux=0,mod=0,ncod,nedad,ndoc,nran,sal=1;
+char nnom[10],nape[10];
+usuarios *paux=NULL;
+printf("ingrese el dni del usuario que quiere modificar\n");
+scanf("%d",&dni);
+paux=*h;
+while(sal!=0)
+{
+	if(dni==paux->documento)
+	{
+	while(sal!=0)
+		{
+			printf("que desea modificar\n");
+			printf("1)codigo\n");
+			printf("2)nombre\n");
+			printf("3)apellido\n");
+			printf("4)edad\n");
+			printf("5)documento\n");
+			printf("6)rango\n");
+			scanf("%d".&mod);
+			switch(mod)
+				{
+				case 1:
+				scanf("%d",&ncod);
+				paux->codigo=ncod;
+				break;
+				case 2:
+				scanf("%s",&nnom);
+				paux->nombre=nnom;
+				break;
+				case 3:
+				scanf("%s",&nape);
+				paux->apellido=nape;
+				break;
+				case 4:
+				scanf("%d",&nedad);
+				paux->edad=nedad;
+				break;
+				case 5:
+				scanf("%d",&ndoc);
+				paux->documento=ndoc;
+				break;
+				case 6:
+				scanf("%d",&nran);
+				paux->rango=nran;
+				break;
+				}
+			printf("si desea modificar algo mas 1 sino 0\n");
+			scanf("%d",&sal);
+		}
+	}
+	else
+	{
+	paux=paux->sig;
+	}
+}
 }
