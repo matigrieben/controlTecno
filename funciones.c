@@ -35,8 +35,7 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
-		camara(dni);
-		//cvStartWindowThread();
+	camara(dni);
 	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
 	scanf("%d", &estatus);
 	printf("Usuario agregado exitosamente!\n");
@@ -199,7 +198,7 @@ void imprimirListaUsuarios(struct usuarios *h)
 	\param 
 	\return 0 si no se encontro el codigo(usuario), -1 si no existen usuarios (lista vacia), 1 si es admin, 2 si es usuario normal
 */
-int paseUsuario(struct usuarios *h, char *codigoBuscar, int *si)
+int paseUsuario(struct usuarios *h, char *codigoBuscar)
 {
 	int flag = 0;
 	if(h == NULL) flag = -1;
@@ -212,9 +211,9 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar, int *si)
 				flag = h->rango;
 				if(flag==2)
 				{
-					imprimirUsuarioEncontrado(h, *si); //para admin, eliminar despues
-					cvStartWindowThread();
-					*si = 0;
+					imprimirUsuarioEncontrado(h); //para admin, eliminar despues
+					/*cvStartWindowThread();
+					*si = 0;*/
 				}
 				logg(h->documento);
 			}
@@ -224,7 +223,7 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar, int *si)
 	return flag;
 }
 
-void imprimirUsuarioEncontrado(struct usuarios *h, int si)
+void imprimirUsuarioEncontrado(struct usuarios *h)
 {
 	char buf[15];
 	IplImage *img = NULL;
@@ -233,12 +232,21 @@ void imprimirUsuarioEncontrado(struct usuarios *h, int si)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
 		sprintf(buf, "%d.jpg", h->documento);
-		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
-		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
-  		cvShowImage("Usuario", img);
-		if(si)cvWaitKey(3000);
-		else sleep(3);
-		cvDestroyWindow("Usuario");
+		if(!fork())
+		{
+			img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
+			cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
+	  		cvShowImage("Usuario", img);
+			//if(si)
+			cvWaitKey(3000);
+			//else sleep(3);
+			cvDestroyWindow("Usuario");
+			exit(0);
+		}
+		else
+		{
+			wait(NULL);
+		}
 	}
 	return;
 }
@@ -291,17 +299,11 @@ void stringTag(int uart0_filestream, char vector[27])
 */
 void camara (int dni)
 {
-	//int fd[2];
-	//char buffer[10];
-	//pipe(fd);
-	int bucle = 1;
-
-    int key = 0;    
+	int bucle = 1, key = 0;
 	char buf[15];
 	sprintf(buf, "%d.jpg", dni); //concatenar el dni con.jpg. Es necesario que sea char, ya que asi lo pide la funcion cvSave...
     IplImage *frame= NULL;
     CvCapture* capture;
-
     if(!fork())
     {
 	    capture = cvCaptureFromCAM( -1 );
@@ -313,22 +315,15 @@ void camara (int dni)
 	        cvShowImage("imagen", frame);
 	    }
 	    while((key = cvWaitKey(1)) < 0);    
-	    	cvSaveImage(buf, frame,0); //guardar la imagen
-			cvDestroyWindow("imagen"); //cierra la ventana generada
-			cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
-			exit(0);
+    	cvSaveImage(buf, frame,0); //guardar la imagen
+		cvDestroyWindow("imagen"); //cierra la ventana generada
+		cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
+		exit(0);
 	}
 	else 
 	{
 		wait(NULL);
-		/*while(bucle)
-		{
-
-			read(fd[0], buffer, 1);
-			if(buffer == 's') bucle = 0;
-		}*/
 	}
-
 }
 
 /**

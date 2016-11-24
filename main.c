@@ -12,7 +12,7 @@
 
 int main(void)
 {
-	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0, flag = 1, si = 1;
+	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0, flag = 1;
 	usuarios *h = NULL;
 	struct termios options;
 	unsigned char rx_buffer[100];
@@ -55,7 +55,7 @@ int main(void)
 								rx_length = 0;
 								hola = 0;
 								contador = 0;
-								estatusRango = paseUsuario(h, vector, &si); //vector=codigo a buscar
+								estatusRango = paseUsuario(h, vector); //vector=codigo a buscar
 								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador");
 								else if(estatusRango == -1) printf("No existen usuarios en lista");
 								else if(estatusRango == 2) {} //pasar la imagen por soket
