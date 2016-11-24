@@ -36,7 +36,7 @@ int nuevoUsuario(int uart0_filestream)
 	printf("dni "); 
 	scanf("%d", &dni);
 		camara(dni);
-		cvStartWindowThread();
+		//cvStartWindowThread();
 	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
 	scanf("%d", &estatus);
 	printf("Usuario agregado exitosamente!\n");
