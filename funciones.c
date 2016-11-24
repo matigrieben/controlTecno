@@ -35,6 +35,7 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
+	printf("toma dni\n");
 	if(verificarExistencia(dni, "usuarios.txt"))
 	{
 		camara(dni);
@@ -398,11 +399,11 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 	int flag=1;
 	char codigo[30], nombre[30], apellido[30], edadString[10], dniString[10];
 	int estatus = 0;
-	printf("hola");
+	printf("hola\n");
 	fp = fopen(archivo, "r");
 	if(fp != NULL)
 	{
-		printf("archivo abierto");
+		printf("archivo abierto\n");
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
@@ -411,7 +412,7 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 				flag=0;
 		}		
 	}
-	else printf("error");
+	else printf("error\n");
 	
 	fclose(fp);
 	return flag;
