@@ -8,7 +8,6 @@
 #include <termios.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-#include <signal.h>
 
 int main(void)
 {

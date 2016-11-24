@@ -8,9 +8,6 @@
 #include <termios.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-#include <signal.h>
-
-int buclecamara_nuevoUsuario = 1;
 
 /**
 	\fn int nuevoUsuario()
@@ -293,7 +290,7 @@ void stringTag(int uart0_filestream, char vector[27])
 */
 void camara (int dni)
 {
-    //int key = 0;    
+    int key = 0;    
 	char buf[15];
 	sprintf(buf, "%d.jpg", dni); //concatenar el dni con.jpg. Es necesario que sea char, ya que asi lo pide la funcion cvSave...
     IplImage *frame= NULL;
@@ -301,16 +298,13 @@ void camara (int dni)
     capture = cvCaptureFromCAM( -1 );
     cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
     cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
-    signal(SIGINT, alarma); // ipc
-    while(buclecamara_nuevoUsuario)
+    do
     {
         frame = cvQueryFrame( capture );
         cvShowImage("imagen", frame);
     }
-    //while((key = cvWaitKey(1)) < 0);    
-    	//signal(SIGINT, SIG_IGN);
-    	buclecamara_nuevoUsuario = 1;
-		cvSaveImage(buf, frame,0); //guardar la imagen
+    while((key = cvWaitKey(1)) < 0);    
+    	cvSaveImage(buf, frame,0); //guardar la imagen
 		cvDestroyWindow("imagen"); //cierra la ventana generada
 		cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
 }
@@ -362,9 +356,4 @@ void encriptar(char* password, int cant)
 	    else 
 			password[i] = password[i]+2;    //Le sumo a la letra 2.
 	}
-}
-
-void alarma()
-{
-	buclecamara_nuevoUsuario = 0;
 }
