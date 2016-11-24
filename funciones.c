@@ -46,8 +46,10 @@ int nuevoUsuario(int uart0_filestream)
 		else estatus = 1;	
 		fclose(fp);	
 	}
-	else
+	else {
 		printf("ya existe un usuario con ese dni");	
+		estatus = 1; 
+		}
 	return estatus;
 }
 /**
@@ -394,7 +396,7 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 {
 	FILE *fp;
 	int flag=1;
-	char codigo[30], nombre[30], apellido[30], edadString[8] = "", dniString[8];
+	char codigo[30], nombre[30], apellido[30], edadString[10], dniString[10];
 	int estatus = 0;
 	printf("hola");
 	fp = fopen(archivo, "r");
