@@ -33,3 +33,4 @@ void stringTag(int, char *);
 void encriptar(char *, int);
 void camara (int);
 int nuevaPass();
+int verificarExistencia(int, char*);

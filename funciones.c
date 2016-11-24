@@ -35,14 +35,19 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("dni "); 
 	scanf("%d", &dni);
-	camara(dni);
-	printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
-	scanf("%d", &estatus);
-	printf("Usuario agregado exitosamente!\n");
-	fp=fopen("usuarios.txt", "a+");
-	if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
-	else estatus = 1;	
-	fclose(fp);	
+	if(verificarExistencia(dni, "usuarios.txt");
+	{
+		camara(dni);
+		printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
+		scanf("%d", &estatus);
+		printf("Usuario agregado exitosamente!\n");
+		fp=fopen("usuarios.txt", "a+");
+		if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
+		else estatus = 1;	
+		fclose(fp);	
+	}
+	else
+		printf("ya existe un usuario con ese dni");	
 	return estatus;
 }
 /**
@@ -373,4 +378,39 @@ void encriptar(char* password, int cant)
 	    else 
 			password[i] = password[i]+2;    //Le sumo a la letra 2.
 	}
+}
+
+/**
+	\fn int verificarExistencia(int dni, char* archivo)
+	\brief cuando el admin quiere cargar un usuario, verifica que no exista en el sistema
+	\details 
+	\author 
+	\date 2016.mes.dia
+	\param dni: contiene el dni del usuario que se esta por ingresar al sistema
+	\param * archivo nombre del archivo que contiene los usuarios del sistema
+	\return 0 si ya existe el usuario, 1 si no existe
+*/
+int verificarExistencia(int dni, char* archivo) //------------------- 0 si existe, 1 no existe
+{
+	FILE *fp;
+	int flag=1;
+	char codigo[30], nombre[30], apellido[30], edadString[8] = "", dniString[8];
+	int estatus = 0;
+	printf("hola");
+	fp = fopen(archivo, "r");
+	if(fp != NULL)
+	{
+		printf("archivo abierto");
+		while(!feof(fp))
+		{
+			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
+			
+			if(dni == atoi(dniString))
+				flag=0;
+		}		
+	}
+	else printf("error");
+	
+	fclose(fp);
+	return flag;
 }
