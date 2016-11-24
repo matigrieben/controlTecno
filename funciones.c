@@ -113,14 +113,14 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			if(*h == NULL)
 			{
 				*h = nuevo;
-				estatus=1;
+				estatus = 1;
 				pAux = *h;
 			}
 			else
 			{
 				while(pAux->sig != NULL) pAux = pAux->sig;
 				pAux->sig = nuevo;
-				estatus=1;
+				estatus = 1;
 			}
 		}
 		fclose(fp);
@@ -179,12 +179,12 @@ int opcionesMenu()
 	return opcion;
 }
 
-void liberarListaUsuarios(struct usuarios *h)
+void liberarListaUsuarios(struct usuarios **h)
 {
-	if(h != NULL)
+	if(*h != NULL)
 	{
-		liberarListaUsuarios(h->sig);
-		free(h);
+		liberarListaUsuarios(&(*h)->sig);
+		free(*h);
 	}
 }
 

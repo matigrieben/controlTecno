@@ -66,12 +66,12 @@ int main(void)
 										case 1:
 											if(!nuevoUsuario(uart0_filestream))
 											{
-												liberarListaUsuarios(h);
+												liberarListaUsuarios(&h);
 											  	if(!ListarUsuarios(&h, "usuarios.txt"))
 											  	{
 											  		printf("Error al ingresar en lista\n");
 											  	 	flag = 0;
-											  	 	liberarListaUsuarios(h);
+											  	 	liberarListaUsuarios(&h);
 											  	}
 											}
 											printf("salio del nuevousuario\n");
@@ -89,7 +89,7 @@ int main(void)
 										break;
 										case 5:
 											flag = 0;
-											liberarListaUsuarios(h);
+											liberarListaUsuarios(&h);
 										break;
 										default: printf("No ingreso una opcion valida!\n");
 									}
