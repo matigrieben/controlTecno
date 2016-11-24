@@ -8,6 +8,9 @@
 #include <termios.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+#include <signal.h>
+
+int buclecamara_nuevoUsuario = 1;
 
 /**
 	\fn int nuevoUsuario()
@@ -210,9 +213,8 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar, int *si)
 			{
 				flag = h->rango;
 				if(flag==2)
-				{ //imprimirUsuarioEncontrado(h);
+				{
 					imprimirUsuarioEncontrado(h, *si); //para admin, eliminar despues
-					//if(*si) 
 					cvStartWindowThread();
 					*si = 0;
 				}
@@ -233,32 +235,12 @@ void imprimirUsuarioEncontrado(struct usuarios *h, int si)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
 		sprintf(buf, "%d.jpg", h->documento);
-		printf("hola1\n");
 		img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
-		printf("hola2\n");
 		cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
-		printf("hola3\n");
   		cvShowImage("Usuario", img);
-		printf("hola4\n");
-		//sleep(5);
-  		//if(h->rango == 1)
-		//{
-			//while((key = cvWaitKey(1)) < 0){}
-  			printf("entra en sleep\n");
-			//if(cvWaitKey(3000) == -1)
-			if(si)cvWaitKey(3000);
-			else sleep(3);
-			printf("hola5\n");
-			//{
-				cvDestroyWindow("Usuario");
-				printf("hola1\n");
-				//cvDestroyAllWindows();
-				printf("sale de sleep\n");
-			//}
-			//sleep(3);
-            		//cvDestroyWindow("Usuario");
-			//cvStartWindowThread();
-		//}
+		if(si)cvWaitKey(3000);
+		else sleep(3);
+		cvDestroyWindow("Usuario");
 	}
 	return;
 }
@@ -311,7 +293,7 @@ void stringTag(int uart0_filestream, char vector[27])
 */
 void camara (int dni)
 {
-    int key = 0;    
+    //int key = 0;    
 	char buf[15];
 	sprintf(buf, "%d.jpg", dni); //concatenar el dni con.jpg. Es necesario que sea char, ya que asi lo pide la funcion cvSave...
     IplImage *frame= NULL;
@@ -319,12 +301,17 @@ void camara (int dni)
     capture = cvCaptureFromCAM( -1 );
     cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
     cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
+    signal(SIGINT, alarma); // ipc
     do 
     {
         frame = cvQueryFrame( capture );
         cvShowImage("imagen", frame);
     }
-    while((key = cvWaitKey(1)) < 0);    
+    //while((key = cvWaitKey(1)) < 0);    
+    while(buclecamara_nuevoUsuario);
+
+    	signal(SIGINT, SIG_IGN);
+    	buclecamara_nuevoUsuario = 1;
 		cvSaveImage(buf, frame,0); //guardar la imagen
 		cvDestroyWindow("imagen"); //cierra la ventana generada
 		cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
@@ -377,4 +364,9 @@ void encriptar(char* password, int cant)
 	    else 
 			password[i] = password[i]+2;    //Le sumo a la letra 2.
 	}
+}
+
+void alarma()
+{
+	buclecamara_nuevoUsuario = 0;
 }

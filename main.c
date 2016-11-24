@@ -8,16 +8,15 @@
 #include <termios.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+#include <signal.h>
 
 int main(void)
 {
-	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0, flag = 1;
-	usuarios *h=NULL;
+	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0, flag = 1, si = 1;
+	usuarios *h = NULL;
 	struct termios options;
 	unsigned char rx_buffer[100];
 	char vector[27];
-	int si = 1;
-	//cvStartWindowThread();
 	uart0_filestream = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NDELAY);
 	if (uart0_filestream == -1)
 	{
@@ -52,8 +51,7 @@ int main(void)
 						contador = 0;
 						if(hola > 25)
 							{	
-								vector[26] = '\0'; 	
-								//printf("hola %d    bytes read : %s\n", hola, vector);
+								vector[26] = '\0';
 								rx_length = 0;
 								hola = 0;
 								contador = 0;
