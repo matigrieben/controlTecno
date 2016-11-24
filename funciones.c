@@ -146,7 +146,7 @@ int contrasena()
     fscanf(fp, "%s", pass);
     printf("Pass administrador:\n");
     scanf("%s", pass_ingresada);
-    //encriptar(pass_ingresada, strlen(pass_ingresada));
+    encriptar(pass_ingresada, strlen(pass_ingresada));
     if(!strcmp(pass, pass_ingresada)) status = 1;
     fclose(fp);
   }
@@ -374,10 +374,8 @@ void encriptar(char* password, int cant)
 	int i; 
 	for(i = 0;i < cant; i++)
 	{
-	    if(i%2 != 0) 
-			password[i] = password[i]-13;    //Le resto a la letra 13.
-	    else 
-			password[i] = password[i]+13;    //Le sumo a la letra 13.
+	    if(i%2 != 0) password[i] = password[i]-13;    //Le resto a la letra 13.
+	    else password[i] = password[i]+13;    //Le sumo a la letra 13.
 	}
 }
 
