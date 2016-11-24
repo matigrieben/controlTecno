@@ -28,6 +28,7 @@ int nuevoUsuario(int uart0_filestream)
 	printf("Pase la tarjeta del nuevo usuario:\n");
 	stringTag(uart0_filestream, vectorTag);
 	fflush(stdin);
+	fseek(stdin,0,SEEK_END);
 	printf("nombre:\n"); 
 	scanf("%s", nombre);
 	printf("apellido:\n"); 

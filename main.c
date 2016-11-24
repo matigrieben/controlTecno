@@ -74,7 +74,6 @@ int main(void)
 											  	 	liberarListaUsuarios(&h);
 											  	}
 											}
-											printf("salio del nuevousuario\n");
 										break;
 										/*case 2:
 										status_opcion = modificarUsuario();
