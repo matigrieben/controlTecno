@@ -8,6 +8,7 @@
 #include <termios.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
+#include <sys/types.h>
 
 /**
 	\fn int nuevoUsuario()
@@ -290,23 +291,44 @@ void stringTag(int uart0_filestream, char vector[27])
 */
 void camara (int dni)
 {
+	//int fd[2];
+	//char buffer[10];
+	//pipe(fd);
+	int bucle = 1;
+
     int key = 0;    
 	char buf[15];
 	sprintf(buf, "%d.jpg", dni); //concatenar el dni con.jpg. Es necesario que sea char, ya que asi lo pide la funcion cvSave...
     IplImage *frame= NULL;
     CvCapture* capture;
-    capture = cvCaptureFromCAM( -1 );
-    cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
-    cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
-    do
+
+    if(!fork())
     {
-        frame = cvQueryFrame( capture );
-        cvShowImage("imagen", frame);
-    }
-    while((key = cvWaitKey(1)) < 0);    
-    	cvSaveImage(buf, frame,0); //guardar la imagen
-		cvDestroyWindow("imagen"); //cierra la ventana generada
-		cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
+	    capture = cvCaptureFromCAM( -1 );
+	    cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
+	    cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
+	    do
+	    {
+	        frame = cvQueryFrame( capture );
+	        cvShowImage("imagen", frame);
+	    }
+	    while((key = cvWaitKey(1)) < 0);    
+	    	cvSaveImage(buf, frame,0); //guardar la imagen
+			cvDestroyWindow("imagen"); //cierra la ventana generada
+			cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
+			exit(0);
+	}
+	else 
+	{
+		wait(NULL);
+		/*while(bucle)
+		{
+
+			read(fd[0], buffer, 1);
+			if(buffer == 's') bucle = 0;
+		}*/
+	}
+
 }
 
 /**
