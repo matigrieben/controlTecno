@@ -302,15 +302,13 @@ void camara (int dni)
     cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
     cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
     signal(SIGINT, alarma); // ipc
-    do 
+    while(buclecamara_nuevoUsuario)
     {
         frame = cvQueryFrame( capture );
         cvShowImage("imagen", frame);
     }
     //while((key = cvWaitKey(1)) < 0);    
-    while(buclecamara_nuevoUsuario);
-
-    	signal(SIGINT, SIG_IGN);
+    	//signal(SIGINT, SIG_IGN);
     	buclecamara_nuevoUsuario = 1;
 		cvSaveImage(buf, frame,0); //guardar la imagen
 		cvDestroyWindow("imagen"); //cierra la ventana generada
