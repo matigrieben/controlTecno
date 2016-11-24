@@ -521,3 +521,37 @@ while(sal!=0)
 	}
 }
 }
+
+void subir(usuario **h)
+{
+    FILE *fp;
+    int dni,aux2=1,mod=0,ncod,nedad,ndoc,nran,sal=1;
+char nnom[10],nape[10];
+    usuario *aux=NULL;
+    aux=*h;
+    fp=fopen("empleados.txt","a");
+if(fp==NULL)
+	{
+	printf("no se encontro\n");
+	return 0;
+        }
+        while(aux2!=0)
+        {
+            ncod=aux->codigo;
+            nnom=aux->nombre;
+            nape=paux->apellido;
+            nedad=paux->edad;
+            ndoc=paux->documento;
+            nran=paux->rango;
+            fprintf(fpr,"%d,%s,%s,%d,%d,%d",ncod,nnom,nape,nedad,ndoc,nran);
+            if(aux->sig==NULL)
+            {
+                aux2=0;
+            }
+            else
+            {
+                aux=aux->sig;
+            }
+        }
+    fclose(fp);
+}

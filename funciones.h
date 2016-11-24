@@ -36,3 +36,4 @@ int nuevaPass();
 int verificarExistencia(int, char*);
 void borrar(struct usuario **);
 void modificar(usuarios **);
+void subir(usuario **);
