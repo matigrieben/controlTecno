@@ -287,6 +287,7 @@ void stringTag(int uart0_filestream, char vector[27])
 
 		}
 	}
+	fseek(stdin,0,SEEK_END);
 	return;
 }
 
