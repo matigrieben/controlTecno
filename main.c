@@ -63,34 +63,34 @@ int main(void)
 								{
 									switch(opcionesMenu())
 									{
-									case 1:
-									  if(!nuevoUsuario(uart0_filestream))
-									  {
-									  	 liberarListaUsuarios(h);
-									  	 if(!ListarUsuarios(&h, "usuarios.txt"))
-									  	 {
-									  	 	printf("Error al ingresar en lista\n");
-									  	 	flag = 0;
-									  	 	liberarListaUsuarios(h);
-									  	 }
-									  }
-									break;
-									/*case 2:
-									  status_opcion = modificarUsuario();
-									  break;*/
-									/*case 3:
-									  status_opcion = eliminarUsuario();
-									  break;*/
-									  case 4:
-									  if(nuevaPass()) 
+										case 1:
+										  if(!nuevoUsuario(uart0_filestream))
+										  {
+										  	 liberarListaUsuarios(h);
+										  	 if(!ListarUsuarios(&h, "usuarios.txt"))
+										  	 {
+										  	 	printf("Error al ingresar en lista\n");
+										  	 	flag = 0;
+										  	 	liberarListaUsuarios(h);
+										  	 }
+										  }
+										break;
+										/*case 2:
+										status_opcion = modificarUsuario();
+										break;*/
+										/*case 3:
+										status_opcion = eliminarUsuario();
+										break;*/
+										case 4:
+										if(nuevaPass()) 
 										printf("Cambio de contrasena exitoso!\n");
-									  else printf("Error en el cambio de contrasena!\n");
-									  break;
-									  case 5:
-									  flag = 0;
-									  liberarListaUsuarios(h);
-									  break;
-									  default: printf("No ingreso una opcion valida!\n");
+										else printf("Error en el cambio de contrasena!\n");
+										break;
+										case 5:
+										flag = 0;
+										liberarListaUsuarios(h);
+										break;
+										default: printf("No ingreso una opcion valida!\n");
 									}
 								}
 								else printf("Contraseña incorrecta");

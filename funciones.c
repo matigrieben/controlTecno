@@ -415,7 +415,7 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 	return flag;
 }
 
-void borrar(struct usuario **h)
+/*void borrar(struct usuario **h)
 {
 int dni,enc=0,contador=0;
 struct *p=NULL,*aux=NULL, *aux2=NULL;
@@ -554,4 +554,4 @@ if(fp==NULL)
             }
         }
     fclose(fp);
-}
+}*/

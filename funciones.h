@@ -34,6 +34,6 @@ void encriptar(char *, int);
 void camara (int);
 int nuevaPass();
 int verificarExistencia(int, char*);
-void borrar(struct usuario **);
+/*void borrar(struct usuario **);
 void modificar(usuarios **);
-void subir(usuario **);
+void subir(usuario **);*/
