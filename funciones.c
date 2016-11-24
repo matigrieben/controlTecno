@@ -27,6 +27,7 @@ int nuevoUsuario(int uart0_filestream)
 	printf("Ingrese los datos del nuevo usuario:\n");
 	printf("Pase la tarjeta del nuevo usuario:\n");
 	stringTag(uart0_filestream, vectorTag);
+	fflush(stdin);
 	printf("nombre:\n"); 
 	scanf("%s", nombre);
 	printf("apellido:\n"); 
@@ -217,12 +218,7 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 			if(!strcmp(h->codigo, codigoBuscar))
 			{
 				flag = h->rango;
-				if(flag==2)
-				{
-					imprimirUsuarioEncontrado(h); //para admin, eliminar despues
-					/*cvStartWindowThread();
-					*si = 0;*/
-				}
+				if(flag==2) imprimirUsuarioEncontrado(h); //para admin, eliminar despues
 				logg(h->documento);
 			}
 			h = h->sig;
@@ -391,19 +387,15 @@ void encriptar(char* password, int cant)
 */
 int verificarExistencia(int dni, char* archivo) //------------------- 0 si existe, 1 no existe
 {
-	FILE *fp;
-	int flag=1;
+	FILE *fp = fopen(archivo, "r");
+	int flag = 1, estatus = 0;
 	char codigo[30], nombre[30], apellido[30], edadString[10], dniString[10];
-	int estatus = 0;
-	fp = fopen(archivo, "r");
 	if(fp != NULL)
 	{
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
-			
-			if(dni == atoi(dniString))
-				flag=0;
+			if(dni == atoi(dniString)) flag = 0;
 		}		
 	}
 	else printf("No se pudo abrir el archivo de usuarios!\n");
