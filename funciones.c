@@ -48,7 +48,7 @@ int nuevoUsuario(int uart0_filestream)
 	}
 	else 
 	{
-		printf("Ya existe un usuario con ese dni\n");	
+		printf("Ya existe un usuario con ese dni, funcion nuevo usuario finalizado\n");	
 		estatus = 1; 
 	}
 	return estatus;
@@ -374,10 +374,10 @@ void encriptar(char* password, int cant)
 	int i; 
 	for(i = 0;i < cant; i++)
 	{
-	    if(i%2 == 0) 
-			password[i] = password[i]-2;    //Le resto a la letra 2.
+	    if(i%2 != 0) 
+			password[i] = password[i]-13;    //Le resto a la letra 13.
 	    else 
-			password[i] = password[i]+2;    //Le sumo a la letra 2.
+			password[i] = password[i]+13;    //Le sumo a la letra 13.
 	}
 }
 

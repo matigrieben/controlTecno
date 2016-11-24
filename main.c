@@ -95,6 +95,7 @@ int main(void)
 									}
 								}
 								else printf("Contraseña incorrecta\n");
+								printf("Esperando Tag:\n");
 								tcflush(uart0_filestream, TCIFLUSH);	//elimina buffer
 							}
 					}
