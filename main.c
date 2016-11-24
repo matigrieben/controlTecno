@@ -56,25 +56,25 @@ int main(void)
 								hola = 0;
 								contador = 0;
 								estatusRango = paseUsuario(h, vector); //vector=codigo a buscar
-								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador");
-								else if(estatusRango == -1) printf("No existen usuarios en lista");
+								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador\n");
+								else if(estatusRango == -1) printf("No existen usuarios en lista\n");
 								else if(estatusRango == 2) {} //pasar la imagen por soket
 								else if(contrasena())
 								{
 									switch(opcionesMenu())
 									{
 										case 1:
-										  if(!nuevoUsuario(uart0_filestream))
-										  {
-										  	 liberarListaUsuarios(h);
-										  	 if(!ListarUsuarios(&h, "usuarios.txt"))
-										  	 {
-										  	 	printf("Error al ingresar en lista\n");
-										  	 	flag = 0;
-										  	 	liberarListaUsuarios(h);
-										  	 }
-										  }
-										  printf("salio del nuevousuario\n");
+											if(!nuevoUsuario(uart0_filestream))
+											{
+												liberarListaUsuarios(h);
+											  	if(!ListarUsuarios(&h, "usuarios.txt"))
+											  	{
+											  		printf("Error al ingresar en lista\n");
+											  	 	flag = 0;
+											  	 	liberarListaUsuarios(h);
+											  	}
+											}
+											printf("salio del nuevousuario\n");
 										break;
 										/*case 2:
 										status_opcion = modificarUsuario();
@@ -83,18 +83,18 @@ int main(void)
 										status_opcion = eliminarUsuario();
 										break;*/
 										case 4:
-										if(nuevaPass()) 
-										printf("Cambio de contrasena exitoso!\n");
-										else printf("Error en el cambio de contrasena!\n");
+											if(nuevaPass()) 
+											printf("Cambio de contrasena exitoso!\n");
+											else printf("Error en el cambio de contrasena!\n");
 										break;
 										case 5:
-										flag = 0;
-										liberarListaUsuarios(h);
+											flag = 0;
+											liberarListaUsuarios(h);
 										break;
 										default: printf("No ingreso una opcion valida!\n");
 									}
 								}
-								else printf("Contraseña incorrecta");
+								else printf("Contraseña incorrecta\n");
 								tcflush(uart0_filestream, TCIFLUSH);	//elimina buffer
 							}
 					}

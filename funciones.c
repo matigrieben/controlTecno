@@ -25,21 +25,20 @@ int nuevoUsuario(int uart0_filestream)
 	int flag=1, codigo, edad, dni, estatus = 0;
 	char nombre[30], apellido[30], vectorTag[27];
 	printf("Ingrese los datos del nuevo usuario:\n");
-	printf("Pase la tarjeta del nuevo usuario: ");
+	printf("Pase la tarjeta del nuevo usuario:\n");
 	stringTag(uart0_filestream, vectorTag);
-	printf("nombre "); 
+	printf("nombre:\n"); 
 	scanf("%s", nombre);
-	printf("apellido "); 
+	printf("apellido:\n"); 
 	scanf("%s", apellido);
-	printf("edad "); 
+	printf("edad:\n"); 
 	scanf("%d", &edad);
-	printf("dni "); 
+	printf("dni:\n"); 
 	scanf("%d", &dni);
-	printf("toma dni\n");
 	if(verificarExistencia(dni, "usuarios.txt"))
 	{
 		camara(dni);
-		printf("rango del nuevo usuario: (1 administrador, 2 usuario) \n"); 
+		printf("rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
 		scanf("%d", &estatus);
 		printf("Usuario agregado exitosamente!\n");
 		fp=fopen("usuarios.txt", "a+");
@@ -47,10 +46,11 @@ int nuevoUsuario(int uart0_filestream)
 		else estatus = 1;	
 		fclose(fp);	
 	}
-	else {
-		printf("ya existe un usuario con ese dni");	
+	else 
+	{
+		printf("Ya existe un usuario con ese dni\n");	
 		estatus = 1; 
-		}
+	}
 	return estatus;
 }
 /**
@@ -144,7 +144,7 @@ int contrasena()
   if(fp != NULL)
   {
     fscanf(fp, "%s", pass);
-    printf("Pass administrador: ");
+    printf("Pass administrador:\n");
     scanf("%s", pass_ingresada);
     //encriptar(pass_ingresada, strlen(pass_ingresada));
     if(!strcmp(pass, pass_ingresada)) status = 1;
@@ -245,9 +245,7 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 			img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
 			cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
 	  		cvShowImage("Usuario", img);
-			//if(si)
 			cvWaitKey(3000);
-			//else sleep(3);
 			cvDestroyWindow("Usuario");
 			exit(0);
 		}
@@ -349,7 +347,7 @@ int nuevaPass()
 	FILE *fp = fopen("pass.txt", "w");
 	char pass_nueva[20];
 	int status = 0;
-	printf("Ingrese la nueva Pass del administrador: ");
+	printf("Ingrese la nueva Pass del administrador:\n");
 	scanf("%s", pass_nueva);
 	encriptar(pass_nueva, strlen(pass_nueva));
 	if(fp != NULL)
@@ -399,11 +397,9 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 	int flag=1;
 	char codigo[30], nombre[30], apellido[30], edadString[10], dniString[10];
 	int estatus = 0;
-	printf("hola\n");
 	fp = fopen(archivo, "r");
 	if(fp != NULL)
 	{
-		printf("archivo abierto\n");
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
@@ -412,8 +408,7 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 				flag=0;
 		}		
 	}
-	else printf("error\n");
-	
+	else printf("No se pudo abrir el archivo de usuarios!\n");
 	fclose(fp);
 	return flag;
 }
