@@ -92,7 +92,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 {
 	FILE *fp; 
 	usuarios *nuevo = NULL, *pAux = NULL;
-	char codigo[30], nombre[30], apellido[30], edadString[8] = "", dniString[8];
+	char codigo[30], nombre[30], apellido[30], edadString[3] = "", dniString[8];
 	int estatus = 0;
 	fp = fopen(archivo, "r");
 	if(fp == NULL) estatus =0;
@@ -101,6 +101,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
+			printf("edadstring:%d\n", edadString); //////borrarrrrr!"!!!"
 			nuevo = (usuarios *)malloc(sizeof(usuarios));
 			strcpy(nuevo->codigo, codigo);
 			strcpy(nuevo->nombre, nombre);
@@ -109,7 +110,6 @@ int ListarUsuarios(usuarios **h, char *archivo)
 			nuevo->documento = atoi(dniString);
 			nuevo->rango = estatus;
 			nuevo->sig = NULL;
-			printf("%s ---- %d edadstring:%s     %d\n", nuevo->nombre, nuevo->edad, edadString, nuevo->documento);
 			if(*h == NULL)
 			{
 				*h = nuevo;
@@ -390,7 +390,7 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 {
 	FILE *fp = fopen(archivo, "r");
 	int flag = 1, estatus = 0;
-	char codigo[30], nombre[30], apellido[30], edadString[10], dniString[10];
+	char codigo[30], nombre[30], apellido[30], edadString[8], dniString[10];
 	if(fp != NULL)
 	{
 		while(!feof(fp))
