@@ -64,9 +64,8 @@ int main(void)
 							SubirUsuarios_Archivo(&h);
 							break;
 						case 3:
-							imprimirListaUsuarios(h);
 							eliminarUsuario(&h);
-							imprimirListaUsuarios(h);
+							SubirUsuarios_Archivo(&h);
 							break;
 						case 4:
 							if(nuevaPass()) 
