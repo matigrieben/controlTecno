@@ -45,8 +45,8 @@ int nuevoUsuario(int uart0_filestream)
 			{
 				printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
 				scanf("%d", &rango);
-				if(rango > 0 && rango < 3) flag = 1;
-				else printf("Ingrese un rango valido! Error\n"); 
+				if(rango > 0 && rango < 3) flag = 0;
+				else printf("Ingrese un rango valido!\n"); 
 			}
 			printf("Usuario agregado exitosamente!\n");
 			fp=fopen("usuarios.txt", "a+");
