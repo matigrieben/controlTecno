@@ -22,7 +22,7 @@
 int nuevoUsuario(int uart0_filestream)
 {
 	FILE *fp;
-	int flag=1, codigo, edad, dni, estatus = 5;
+	int flag=1, codigo, edad, dni, rango = 5, estatus = 0;
 	char nombre[30], apellido[30], vectorTag[27];
 	printf("Ingrese los datos del nuevo usuario:\n");
 	printf("Pase la tarjeta del nuevo usuario:\n");
@@ -39,10 +39,10 @@ int nuevoUsuario(int uart0_filestream)
 	if(verificarExistenciaDni(dni, "usuarios.txt"))
 	{
 		camara(dni);
-		while(0 <= estatus || estatus > 3)
+		while(0 <= rango || rango > 3)
 		{
 			printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
-			scanf("%d", &estatus);
+			scanf("%d", &rango);
 		}
 		printf("Usuario agregado exitosamente!\n");
 		fp=fopen("usuarios.txt", "a+");
