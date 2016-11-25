@@ -523,7 +523,7 @@ void modificarUsuario(int uart0_filestream, struct usuarios **h)
 							{
 								printf("Nuevo rango del usuario: (1 administrador, 2 usuario)\n");
 								scanf("%d", &nran);
-								if(0 > nran && nran < 3)
+								if( nran>0 && nran < 3)
 								{
 									paux->rango = nran;
 									flag_rango = 0;
