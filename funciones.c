@@ -414,25 +414,25 @@ void eliminarUsuario(usuarios **h)
 	{
 		if(p->sig != NULL)
 		{
-			if(p->documento==dni && p == *h)
+			if(p->documento == dni && p == *h)
 			{
-				aux2=aux2->sig;
-				*h=aux2;
+				aux2 = aux2->sig;
+				*h = aux2;
 				free(p);
-				enc=1;
+				enc = 1;
 			}
 			else
 			{
 				if(p->sig != NULL) p=p->sig;
-				aux=p->sig;
+				aux = p->sig;
 				if(p->documento == dni && p->sig != NULL)
 				{
 					if(p->sig != NULL) aux2->sig = aux;
 					else aux->sig = NULL;
 					free(p);
-					enc=1;
+					enc = 1;
 				}
-				else aux2 = p;
+				else if(p != NULL) aux2 = p;
 			}
 		}
 		else
@@ -447,7 +447,6 @@ void eliminarUsuario(usuarios **h)
 		}
 	}
 }
-
 
 
 void modificarUsuario(int uart0_filestream, struct usuarios **h)
