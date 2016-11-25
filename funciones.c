@@ -495,7 +495,8 @@ void modificarUsuario(int uart0_filestream, struct usuarios **h)
 					case 1:
 						printf("Pase la tarjeta del nuevo usuario:\n");
 						stringTag(uart0_filestream, ncod);
-						strcpy(paux->codigo, ncod);
+						if(verificarExistenciaStringTag(ncod, "usuarios.txt")) strcpy(paux->codigo, ncod);
+						else printf("Ya existe el codigo del Tag en la lista\n");
 						break;
 					case 2:
 						printf("Nuevo nombre del usuario:\n");
