@@ -46,7 +46,7 @@ int nuevoUsuario(int uart0_filestream)
 		}
 		printf("Usuario agregado exitosamente!\n");
 		fp=fopen("usuarios.txt", "a+");
-		if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, estatus);
+		if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, rango);
 		else estatus = 1;	
 		fclose(fp);	
 	}
