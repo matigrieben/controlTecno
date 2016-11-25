@@ -22,7 +22,7 @@
 int nuevoUsuario(int uart0_filestream)
 {
 	FILE *fp;
-	int flag=1, codigo, edad, dni, rango = 5, estatus = 0;
+	int flag = 1, codigo, edad, dni, rango = 5, estatus = 0;
 	char nombre[30], apellido[30], vectorTag[27];
 	printf("Ingrese los datos del nuevo usuario:\n");
 	printf("Pase la tarjeta del nuevo usuario:\n");
@@ -41,10 +41,12 @@ int nuevoUsuario(int uart0_filestream)
 		if(verificarExistenciaDni(dni, "usuarios.txt"))
 		{
 			camara(dni);
-			while(0 >= rango || rango > 3)
+			while(flag)
 			{
 				printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
 				scanf("%d", &rango);
+				if(rango > 0 && rango < 3) flag = 1;
+				else printf("Ingrese un rango valido! Error\n"); 
 			}
 			printf("Usuario agregado exitosamente!\n");
 			fp=fopen("usuarios.txt", "a+");
@@ -464,7 +466,7 @@ void eliminarUsuario(usuarios **h)
 
 void modificarUsuario(int uart0_filestream, struct usuarios **h)
 {
-	int dni, mod, nedad, ndoc, nran, flag = 1;
+	int dni, mod, nedad, ndoc, nran, flag = 1, flag_rango = 1;
 	char ncod[27], nnom[30], nape[30];
 	usuarios *paux = NULL;
 	printf("Ingrese el dni del usuario que desea modificar:\n");
@@ -517,10 +519,13 @@ void modificarUsuario(int uart0_filestream, struct usuarios **h)
 						if(paux->rango == 1) printf("No puede modificar el rango de un administrador\n");
 						else
 						{
-							printf("Nuevo rango del usuario: (1 administrador, 2 usuario)\n");
-							scanf("%d", &nran);
-							if(0 < nran < 3) paux->rango = nran;
-							else printf("Ingrese un rango valido! Error\n");
+							while(flag_rango)
+							{
+								printf("Nuevo rango del usuario: (1 administrador, 2 usuario)\n");
+								scanf("%d", &nran);
+								if(0 > nran && nran < 3) paux->rango = nran;
+								else printf("Ingrese un rango valido! Error\n");
+							}
 						}
 						break;
 				}
