@@ -404,17 +404,17 @@ int verificarExistenciaDni(int dni, char* archivo) //------------------- 0 si ex
 
 void eliminarUsuario(usuarios **h)
 {
-	int dni, enc = 0, contador = 0;
-	 usuarios *p = NULL,*aux = NULL, *aux2 = NULL;
+	int dni, enc = 0;
+	usuarios *p = NULL,*aux = NULL, *aux2 = NULL;
 	printf("Ingrese el dni del usuario que quiere eliminar:\n");
-	scanf("%d",&dni);
+	scanf("%d", &dni);
 	p = *h;
 	aux2 = *h;
 	while(!enc)
 	{
 		if((*h)->sig != NULL)
 		{
-			if(p->documento==dni && p==*h)
+			if(p->documento==dni && p == *h)
 			{
 				aux2=aux2->sig;
 				*h=aux2;
@@ -427,10 +427,11 @@ void eliminarUsuario(usuarios **h)
 				aux=p->sig;
 				if(p->documento==dni)
 				{
-					if(p->sig !=NULL)
+					if(p->sig != NULL)
 					{
 						aux->sig=aux2;
 					}
+					else aux->sig = NULL;
 					free(p);
 					enc=1;
 				}
