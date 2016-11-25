@@ -432,7 +432,7 @@ void eliminarUsuario(usuarios **h)
 					free(p);
 					enc = 1;
 				}
-				else if(p != NULL) aux2 = p;
+				else if(p->sig != NULL) aux2 = p;
 			}
 		}
 		else
