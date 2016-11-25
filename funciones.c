@@ -420,6 +420,7 @@ void eliminarUsuario(usuarios **h)
 				*h = aux2;
 				free(p);
 				enc = 1;
+				printf("Usuario eliminado!\n");
 			}
 			else
 			{
@@ -431,6 +432,7 @@ void eliminarUsuario(usuarios **h)
 					else aux->sig = NULL;
 					free(p);
 					enc = 1;
+					printf("Usuario eliminado!\n");
 				}
 				else if(p->sig != NULL) aux2 = p;
 			}
@@ -441,6 +443,7 @@ void eliminarUsuario(usuarios **h)
 			{
 				free(p);
 				aux2->sig = NULL;
+				printf("Usuario eliminado!\n");
 			}
 			else printf("No existe el usuario que quiere eliminar\n");
 			enc = 1;
