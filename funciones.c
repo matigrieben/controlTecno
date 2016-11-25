@@ -287,6 +287,7 @@ void stringTag(int uart0_filestream, char vector[27])
 
 		}
 	}
+	__fpurge(stdin);
 	return;
 }
 
@@ -403,52 +404,53 @@ int verificarExistencia(int dni, char* archivo) //------------------- 0 si exist
 	return flag;
 }
 
-/*void borrar(struct usuario **h)
+void eliminarUsuario(struct usuarios **h)
 {
-int dni,enc=0,contador=0;
-struct *p=NULL,*aux=NULL, *aux2=NULL;
-printf("ingrese el dni del usuario que quiere borrar\n");
-scanf("%d",&dni);
-p=*h;
-aux2=*h;
-while(enc!=1)
+	int dni, enc = 0, contador = 0;
+	struct usuarios *p = NULL,*aux = NULL, *aux2 = NULL;
+	printf("Ingrese el dni del usuario que quiere eliminar:\n");
+	scanf("%d",&dni);
+	p = *h;
+	aux2 = *h;
+	while(enc!=1)
 	{
-	if(p->sig!=NULL)
-	{
-	aux=p->sig;
-	}
-	if(p->documento==dni)
+		if(p->sig!=NULL)
 		{
-		if(contador==0)
+			aux=p->sig;
+		}
+		if(p->documento==dni)
+		{
+			if(contador==0)
 			{
-			free(p);
-			*h=aux;
-			enc=1;
+				free(p);
+				*h=aux;
+				enc=1;
 			}
-		if(p->sig==NULL)
+			if(p->sig==NULL)
 			{
-			free(p);
-			aux2->sig=NULL;
-			enc=1;
+				free(p);
+				aux2->sig=NULL;
+				enc=1;
 			}
+			else
+			{
+				aux2->sig=aux;
+				free(p);
+				enc=1;
+			}
+		}
 		else
+		{
+			p=p->sig;
+			if(contador!=0)
 			{
-			aux2->sig=aux;
-			free(p);
-			enc=1;
+				aux2=aux->sig;
 			}
 		}
-	else
-	{
-		p=p->sig;
-		if(contador!=0)
-		{
-		aux2=aux->sig;
-		}
-	}
-	contador++;
+		contador++;
 	}
 }
+/*
 
 void modificar(usuarios **h)
 {

@@ -78,9 +78,11 @@ int main(void)
 										/*case 2:
 										status_opcion = modificarUsuario();
 										break;*/
-										/*case 3:
-										status_opcion = eliminarUsuario();
-										break;*/
+										case 3:
+										imprimirListaUsuarios(h);
+										eliminarUsuario(&h);
+										imprimirListaUsuarios(h);
+										break;
 										case 4:
 											if(nuevaPass()) 
 											printf("Cambio de contrasena exitoso!\n");
