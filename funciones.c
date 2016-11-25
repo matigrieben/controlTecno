@@ -402,52 +402,50 @@ int verificarExistenciaDni(int dni, char* archivo) //------------------- 0 si ex
 	return flag;
 }
 
-void eliminarUsuario(struct usuarios **h)
+void eliminarUsuario(usuarios **h)
 {
 	int dni, enc = 0, contador = 0;
-	struct usuarios *p = NULL,*aux = NULL, *aux2 = NULL;
+	 usuarios *p = NULL,*aux = NULL, *aux2 = NULL;
 	printf("Ingrese el dni del usuario que quiere eliminar:\n");
 	scanf("%d",&dni);
 	p = *h;
 	aux2 = *h;
-	while(enc != 1)
+	while(!enc)
 	{
-		if(p->sig != NULL)
+		if((*h)->sig != NULL)
 		{
-			aux =p->sig;
-		}
-		if(p->documento == dni)
-		{
-			if(contador == 0)
+			if(p->documento==dni && p==*h)
 			{
+				aux2=aux2->sig;
+				*h=aux2;
 				free(p);
-				*h = aux;
-				enc = 1;
-			}
-			if(p->sig == NULL)
-			{
-				free(p);
-				aux2->sig = NULL;
-				enc = 1;
+				enc=1;
 			}
 			else
 			{
-				aux2->sig = aux;
-				free(p);
-				enc = 1;
+				p=p->sig;
+				aux=p->sig;
+				if(p->documento==dni)
+				{
+					if(p->sig !=NULL)
+					{
+						aux->sig=aux2;
+					}
+					free(p);
+					enc=1;
+				}
+				else
+					aux=aux->sig;
 			}
 		}
 		else
 		{
-			p = p->sig;
-			if(contador!=0)
-			{
-				aux2 = aux->sig;
-			}
+			enc=1;
+			printf("no existe el usuario que quiere eliminar\n");
 		}
-		contador++;
 	}
 }
+
 
 
 void modificarUsuario(int uart0_filestream, struct usuarios **h)
