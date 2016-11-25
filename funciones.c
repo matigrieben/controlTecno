@@ -410,9 +410,9 @@ void eliminarUsuario(usuarios **h)
 	scanf("%d", &dni);
 	p = *h;
 	aux2 = *h;
-	while(!enc)
+	while(!enc && *h != NULL)
 	{
-		if((*h)->sig != NULL)
+		if(p->sig != NULL)
 		{
 			if(p->documento==dni && p == *h)
 			{
@@ -427,22 +427,23 @@ void eliminarUsuario(usuarios **h)
 				aux=p->sig;
 				if(p->documento == dni)
 				{
-					if(p->sig != NULL)
-					{
-						aux2->sig = aux;
-					}
+					if(p->sig != NULL) aux2->sig = aux;
 					else aux->sig = NULL;
 					free(p);
 					enc=1;
 				}
-				else
-					aux=aux->sig;
+				else aux=aux->sig;
 			}
 		}
 		else
 		{
-			enc=1;
-			printf("no existe el usuario que quiere eliminar\n");
+			if(p->documento == dni)
+			{
+				free(p);
+				aux2->sig = NULL;
+			}
+			else printf("No existe el usuario que quiere eliminar\n");
+			enc = 1;
 		}
 	}
 }
