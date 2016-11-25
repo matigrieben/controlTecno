@@ -27,8 +27,7 @@ int nuevoUsuario(int uart0_filestream)
 	printf("Ingrese los datos del nuevo usuario:\n");
 	printf("Pase la tarjeta del nuevo usuario:\n");
 	stringTag(uart0_filestream, vectorTag);
-	fflush(stdin);
-	fseek(stdin,0,SEEK_END);
+	__fpurge(stdin);
 	printf("nombre:\n"); 
 	scanf("%s", nombre);
 	printf("apellido:\n"); 
@@ -288,7 +287,6 @@ void stringTag(int uart0_filestream, char vector[27])
 
 		}
 	}
-	fseek(stdin,0,SEEK_END);
 	return;
 }
 
