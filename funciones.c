@@ -22,7 +22,7 @@
 int nuevoUsuario(int uart0_filestream)
 {
 	FILE *fp;
-	int flag=1, codigo, edad, dni, estatus = 0;
+	int flag=1, codigo, edad, dni, estatus = 5;
 	char nombre[30], apellido[30], vectorTag[27];
 	printf("Ingrese los datos del nuevo usuario:\n");
 	printf("Pase la tarjeta del nuevo usuario:\n");
