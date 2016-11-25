@@ -186,7 +186,7 @@ void liberarListaUsuarios(struct usuarios **h)
 {
 	if(*h != NULL)
 	{
-		liberarListaUsuarios(&(*h)->sig);
+		liberarListaUsuarios(&((*h)->sig));
 		free(*h);
 	}
 }
