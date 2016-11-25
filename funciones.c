@@ -412,39 +412,39 @@ void eliminarUsuario(struct usuarios **h)
 	scanf("%d",&dni);
 	p = *h;
 	aux2 = *h;
-	while(enc!=1)
+	while(enc != 1)
 	{
-		if(p->sig!=NULL)
+		if(p->sig != NULL)
 		{
-			aux=p->sig;
+			aux =p->sig;
 		}
-		if(p->documento==dni)
+		if(p->documento == dni)
 		{
-			if(contador==0)
+			if(contador == 0)
 			{
 				free(p);
-				*h=aux;
-				enc=1;
+				*h = aux;
+				enc = 1;
 			}
-			if(p->sig==NULL)
+			if(p->sig == NULL)
 			{
 				free(p);
-				aux2->sig=NULL;
-				enc=1;
+				aux2->sig = NULL;
+				enc = 1;
 			}
 			else
 			{
-				aux2->sig=aux;
+				aux2->sig = aux;
 				free(p);
-				enc=1;
+				enc = 1;
 			}
 		}
 		else
 		{
-			p=p->sig;
+			p = p->sig;
 			if(contador!=0)
 			{
-				aux2=aux->sig;
+				aux2 = aux->sig;
 			}
 		}
 		contador++;

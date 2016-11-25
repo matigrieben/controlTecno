@@ -12,10 +12,10 @@
 
 int main(void)
 {
-	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, rx_length = 0, hola = 0, contador = 0, flag = 1;
+	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, flag = 1;
 	usuarios *h = NULL;
 	struct termios options;
-	unsigned char rx_buffer[100];
+	//unsigned char rx_buffer[100];
 	char vector[27];
 	uart0_filestream = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NDELAY);
 	if (uart0_filestream == -1)
@@ -35,9 +35,10 @@ int main(void)
 		estatusLista = ListarUsuarios(&h, "usuarios.txt"); //crear lista
 		if(estatusLista) //si se cargo la lista sin errores
 		{
+			printf("Esperando Tag:\n");
 			while(flag)
 			{
-				if (uart0_filestream != -1)
+				/*if (uart0_filestream != -1)
 				{
 					rx_length = read(uart0_filestream, (void *)rx_buffer, 100);				
 					if (rx_length > 0)
@@ -54,7 +55,8 @@ int main(void)
 								vector[26] = '\0';
 								rx_length = 0;
 								hola = 0;
-								contador = 0;
+								contador = 0;*/
+								stringTag(uart0_filestream, vector);
 								estatusRango = paseUsuario(h, vector); //vector=codigo a buscar
 								if(!estatusRango) printf("No se encontro el usuario, contactese con el administrador\n");
 								else if(estatusRango == -1) printf("No existen usuarios en lista\n");
@@ -98,9 +100,9 @@ int main(void)
 								else printf("Contraseña incorrecta\n");
 								printf("Esperando Tag:\n");
 								tcflush(uart0_filestream, TCIFLUSH);	//elimina buffer
-							}
+							/*}
 					}
-				}
+				}*/
 			}
 		}	
 	}
