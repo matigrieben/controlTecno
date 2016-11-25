@@ -34,5 +34,5 @@ void camara (int);
 int nuevaPass();
 int verificarExistencia(int, char*);
 void eliminarUsuario(struct usuarios **);
-void modificarUsuario(struct usuarios **);
+void modificarUsuario(int, struct usuarios **);
 void SubirUsuarios_Archivo(struct usuarios **);

@@ -60,7 +60,7 @@ int main(void)
 							}
 							break;
 						case 2:
-							modificarUsuario(&h);
+							modificarUsuario(uart0_filestream, &h);
 							SubirUsuarios_Archivo(&h);
 							break;
 						case 3:

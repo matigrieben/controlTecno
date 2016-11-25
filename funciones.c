@@ -28,18 +28,18 @@ int nuevoUsuario(int uart0_filestream)
 	printf("Pase la tarjeta del nuevo usuario:\n");
 	stringTag(uart0_filestream, vectorTag);
 	__fpurge(stdin);
-	printf("nombre:\n"); 
+	printf("Nombre:\n"); 
 	scanf("%s", nombre);
-	printf("apellido:\n"); 
+	printf("Apellido:\n"); 
 	scanf("%s", apellido);
-	printf("edad:\n"); 
+	printf("Edad:\n"); 
 	scanf("%d", &edad);
-	printf("dni:\n"); 
+	printf("Dni:\n"); 
 	scanf("%d", &dni);
 	if(verificarExistencia(dni, "usuarios.txt"))
 	{
 		camara(dni);
-		printf("rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
+		printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
 		scanf("%d", &estatus);
 		printf("Usuario agregado exitosamente!\n");
 		fp=fopen("usuarios.txt", "a+");
@@ -447,33 +447,33 @@ void eliminarUsuario(struct usuarios **h)
 }
 
 
-void modificarUsuario(struct usuarios **h)
+void modificarUsuario(int uart0_filestream, struct usuarios **h)
 {
-	int dni, aux = 0, mod = 0, nedad, ndoc, nran, sal = 1;
+	int dni, mod, nedad, ndoc, nran, flag = 1;
 	char ncod[27], nnom[30], nape[30];
 	usuarios *paux = NULL;
 	printf("Ingrese el dni del usuario que desea modificar:\n");
 	scanf("%d",&dni);
-	paux=*h;
-	while(sal!=0)
+	paux = *h;
+	while(flag!=0)
 	{
 		if(dni==paux->documento)
 		{
-			while(sal!=0)
+			while(flag!=0)
 			{
 				printf("Elija una opcion para modificar:\n");
 				printf("================================\n");
-				printf("Codigo Tag                   (1)\n");
-				printf("Nombre	    			     (2)\n");
-				printf("Apellido                     (3)\n");
-				printf("Edad 						 (4)\n");
-				printf("Rango                        (5)\n");
+				printf("Codigo Tag:                  (1)\n");
+				printf("Nombre:                      (2)\n");
+				printf("Apellido:                    (3)\n");
+				printf("Edad:                        (4)\n");
+				printf("Rango:                       (5)\n");
 				printf("================================\n");
 				scanf("%d", &mod);
 				switch(mod)
 				{
 					case 1:
-						scanf("%s", ncod);
+						stringTag(uart0_filestream, ncod);
 						strcpy(paux->codigo, ncod);
 						break;
 					case 2:
@@ -494,7 +494,7 @@ void modificarUsuario(struct usuarios **h)
 						break;
 				}
 				printf("Desea modificar otra caracteristica? (1 si/no 0)\n");
-				scanf("%d",&sal);
+				scanf("%d", &flag);
 			}
 		}
 		else paux=paux->sig;
@@ -508,7 +508,7 @@ void SubirUsuarios_Archivo(struct usuarios **h)
     int flag = 1, nedad, ndoc, nran;
 	char ncod[27], nnom[30], nape[30];
     usuarios *aux = *h;
-	if(fp==NULL) printf("No existe archivo de usuarios\n");
+	if(fp == NULL) printf("No existe archivo de usuarios\n");
 	else
 	{
         while(flag)
