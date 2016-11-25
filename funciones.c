@@ -425,11 +425,11 @@ void eliminarUsuario(usuarios **h)
 			{
 				p=p->sig;
 				aux=p->sig;
-				if(p->documento==dni)
+				if(p->documento == dni)
 				{
 					if(p->sig != NULL)
 					{
-						aux->sig=aux2;
+						aux2->sig = aux;
 					}
 					else aux->sig = NULL;
 					free(p);
