@@ -58,24 +58,25 @@ int main(void)
 							  	 	liberarListaUsuarios(&h);
 							  	}
 							}
-						break;
-						/*case 2:
-						status_opcion = modificarUsuario();
-						break;*/
+							break;
+						case 2:
+							modificarUsuario(&h);
+							SubirUsuarios_Archivo(&h);
+							break;
 						case 3:
-						imprimirListaUsuarios(h);
-						eliminarUsuario(&h);
-						imprimirListaUsuarios(h);
-						break;
+							imprimirListaUsuarios(h);
+							eliminarUsuario(&h);
+							imprimirListaUsuarios(h);
+							break;
 						case 4:
 							if(nuevaPass()) 
 							printf("Cambio de contrasena exitoso!\n");
 							else printf("Error en el cambio de contrasena!\n");
-						break;
+							break;
 						case 5:
 							flag = 0;
 							liberarListaUsuarios(&h);
-						break;
+							break;
 						default: printf("No ingreso una opcion valida!\n");
 					}
 				}

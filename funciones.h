@@ -28,12 +28,11 @@ void imprimirListaUsuarios(struct usuarios *);
 int paseUsuario(struct usuarios *, char *);
 void imprimirUsuarioEncontrado(struct usuarios *);
 int contrasena();
-int modificarUsuario();
 void stringTag(int, char *);
 void encriptar(char *, int);
 void camara (int);
 int nuevaPass();
 int verificarExistencia(int, char*);
 void eliminarUsuario(struct usuarios **);
-/*void modificar(usuarios usuarios **);*/
+void modificarUsuario(struct usuarios **);
 void SubirUsuarios_Archivo(struct usuarios **);

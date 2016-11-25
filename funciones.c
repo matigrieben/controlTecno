@@ -253,11 +253,6 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 	return;
 }
 
-int modificarUsuario(usuarios **h)
-{
-	
-}
-
 void stringTag(int uart0_filestream, char vector[27])
 {
     int rx_length = 0, hola = 0, contador = 0, flag = 1;
@@ -452,7 +447,7 @@ void eliminarUsuario(struct usuarios **h)
 }
 
 
-void modificar(usuarios **h)
+void modificarUsuario(struct usuarios **h)
 {
 	int dni, aux = 0, mod = 0, nedad, ndoc, nran, sal = 1;
 	char ncod[27], nnom[30], nape[30];
