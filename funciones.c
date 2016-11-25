@@ -114,7 +114,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
-			printf("%s,%s,%s,edadstring:%s, %s, %d\n", codigo, nombre, apellido, edadString, dniString, estatus); //////borrarrrrr!"!!!"
+			//printf("%s,%s,%s,edadstring:%s, %s, %d\n", codigo, nombre, apellido, edadString, dniString, estatus); //////borrarrrrr!"!!!"
 			nuevo = (usuarios *)malloc(sizeof(usuarios));
 			strcpy(nuevo->codigo, codigo);
 			strcpy(nuevo->nombre, nombre);
@@ -291,7 +291,7 @@ void stringTag(int uart0_filestream, char vector[27])
 				{	
 					flag=0;
 					vector[26] = '\0'; 	
-					printf("hola %d    bytes read : %s\n", hola, vector);		
+					//printf("hola %d    bytes read : %s\n", hola, vector);		
 				}
 			}			
 
@@ -430,9 +430,14 @@ void eliminarUsuario(usuarios **h)
 			{
 				aux2 = aux2->sig;
 				*h = aux2;
-				free(p);
-				enc = 1;
-				printf("Usuario eliminado!\n");
+				if(p->rango !=1)
+				{
+					free(p);
+					enc = 1;
+					printf("Usuario eliminado!\n");
+				}
+				else
+					printf("no puede eliminar un admin\n");
 			}
 			else
 			{
@@ -442,9 +447,14 @@ void eliminarUsuario(usuarios **h)
 				{
 					if(p->sig != NULL) aux2->sig = aux;
 					else aux->sig = NULL;
-					free(p);
-					enc = 1;
-					printf("Usuario eliminado!\n");
+					if(p->rango !=1)
+					{
+						free(p);
+						enc = 1;
+						printf("Usuario eliminado!\n");
+					}
+					else
+					printf("no puede eliminar un admin\n");
 				}
 				else if(p->sig != NULL) aux2 = p;
 			}
@@ -453,9 +463,14 @@ void eliminarUsuario(usuarios **h)
 		{
 			if(p->documento == dni)
 			{
-				free(p);
-				aux2->sig = NULL;
-				printf("Usuario eliminado!\n");
+				if(p->rango != 1)
+				{
+					free(p);
+					aux2->sig = NULL;
+					printf("Usuario eliminado!\n");
+				}
+				else
+					printf("no puede eliminar un admin\n");
 			}
 			else printf("No existe el usuario que quiere eliminar\n");
 			enc = 1;

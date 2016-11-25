@@ -50,7 +50,7 @@ int main(void)
 						case 1:
 							if(!nuevoUsuario(uart0_filestream))
 							{
-								imprimirListaUsuarios(h);
+								//imprimirListaUsuarios(h);
 								liberarListaUsuarios(&h);
 							  	if(!ListarUsuarios(&h, "usuarios.txt"))
 							  	{
@@ -58,7 +58,7 @@ int main(void)
 							  	 	flag = 0;
 							  	 	liberarListaUsuarios(&h);
 							  	}
-							  	else imprimirListaUsuarios(h);
+							  	//else imprimirListaUsuarios(h);
 							}
 							break;
 						case 2:
