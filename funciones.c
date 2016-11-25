@@ -405,7 +405,7 @@ int verificarExistenciaDni(int dni, char* archivo) //------------------- 0 si ex
 void eliminarUsuario(usuarios **h)
 {
 	int dni, enc = 0;
-	usuarios *p = NULL,*aux = NULL, *aux2 = NULL;
+	usuarios *p = NULL, *aux = NULL, *aux2 = NULL;
 	printf("Ingrese el dni del usuario que quiere eliminar:\n");
 	scanf("%d", &dni);
 	p = *h;
