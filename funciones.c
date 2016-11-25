@@ -450,98 +450,85 @@ void eliminarUsuario(struct usuarios **h)
 		contador++;
 	}
 }
-/*
+
 
 void modificar(usuarios **h)
 {
-int dni,aux=0,mod=0,ncod,nedad,ndoc,nran,sal=1;
-char nnom[10],nape[10];
-usuarios *paux=NULL;
-printf("ingrese el dni del usuario que quiere modificar\n");
-scanf("%d",&dni);
-paux=*h;
-while(sal!=0)
-{
-	if(dni==paux->documento)
-	{
+	int dni, aux = 0, mod = 0, nedad, ndoc, nran, sal = 1;
+	char ncod[27], nnom[30], nape[30];
+	usuarios *paux = NULL;
+	printf("Ingrese el dni del usuario que desea modificar:\n");
+	scanf("%d",&dni);
+	paux=*h;
 	while(sal!=0)
-		{
-			printf("que desea modificar\n");
-			printf("1)codigo\n");
-			printf("2)nombre\n");
-			printf("3)apellido\n");
-			printf("4)edad\n");
-			printf("5)documento\n");
-			printf("6)rango\n");
-			scanf("%d".&mod);
-			switch(mod)
-				{
-				case 1:
-				scanf("%d",&ncod);
-				paux->codigo=ncod;
-				break;
-				case 2:
-				scanf("%s",&nnom);
-				paux->nombre=nnom;
-				break;
-				case 3:
-				scanf("%s",&nape);
-				paux->apellido=nape;
-				break;
-				case 4:
-				scanf("%d",&nedad);
-				paux->edad=nedad;
-				break;
-				case 5:
-				scanf("%d",&ndoc);
-				paux->documento=ndoc;
-				break;
-				case 6:
-				scanf("%d",&nran);
-				paux->rango=nran;
-				break;
-				}
-			printf("si desea modificar algo mas 1 sino 0\n");
-			scanf("%d",&sal);
-		}
-	}
-	else
 	{
-	paux=paux->sig;
+		if(dni==paux->documento)
+		{
+			while(sal!=0)
+			{
+				printf("Elija una opcion para modificar:\n");
+				printf("================================\n");
+				printf("Codigo Tag                   (1)\n");
+				printf("Nombre	    			     (2)\n");
+				printf("Apellido                     (3)\n");
+				printf("Edad 						 (4)\n");
+				printf("Rango                        (5)\n");
+				printf("================================\n");
+				scanf("%d", &mod);
+				switch(mod)
+				{
+					case 1:
+						scanf("%s", ncod);
+						strcpy(paux->codigo, ncod);
+						break;
+					case 2:
+						scanf("%s", nnom);
+						strcpy(paux->nombre, nnom);
+						break;
+					case 3:
+						scanf("%s", nape);
+						strcpy(paux->apellido, nape);
+						break;
+					case 4:
+						scanf("%d", &nedad);
+						paux->edad = nedad;
+						break;
+					case 5:
+						scanf("%d", &nran);
+						paux->rango = nran;
+						break;
+				}
+				printf("Desea modificar otra caracteristica? (1 si/no 0)\n");
+				scanf("%d",&sal);
+			}
+		}
+		else paux=paux->sig;
 	}
-}
+	return;
 }
 
-void subir(usuario **h)
+void SubirUsuarios_Archivo(struct usuarios **h)
 {
-    FILE *fp;
-    int dni,aux2=1,mod=0,ncod,nedad,ndoc,nran,sal=1;
-char nnom[10],nape[10];
-    usuario *aux=NULL;
-    aux=*h;
-    fp=fopen("empleados.txt","a");
-if(fp==NULL)
+    FILE *fp = fopen("usuarios.txt","w");
+    int flag = 1, nedad, ndoc, nran;
+	char ncod[27], nnom[30], nape[30];
+    usuarios *aux = *h;
+	if(fp==NULL) printf("No existe archivo de usuarios\n");
+	else
 	{
-	printf("no se encontro\n");
-	return 0;
-        }
-        while(aux2!=0)
+        while(flag)
         {
-            ncod=aux->codigo;
-            nnom=aux->nombre;
-            nape=paux->apellido;
-            nedad=paux->edad;
-            ndoc=paux->documento;
-            nran=paux->rango;
-            fprintf(fpr,"%d,%s,%s,%d,%d,%d",ncod,nnom,nape,nedad,ndoc,nran);
-            if(aux->sig==NULL)
-            {
-                aux2=0;
-            }
-            else
-            {
-                aux=aux->sig;
-            }
+            strcpy(ncod, aux->codigo);
+            strcpy(nnom, aux->nombre);
+            strcpy(nape, aux->apellido);
+            nedad = aux->edad;
+            ndoc = aux->documento;
+            nran = aux->rango;
+            fprintf(fp,"%s,%s,%s,%d,%d,%d\n", ncod, nnom, nape, nedad, ndoc, nran);
+            if(aux->sig == NULL) flag = 0;
+            else aux = aux->sig;
         }
-    fclose(fp);
-}*/
+        fclose(fp);
+    }
+    return;
+}
