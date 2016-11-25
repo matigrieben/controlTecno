@@ -462,7 +462,12 @@ void modificarUsuario(int uart0_filestream, struct usuarios **h)
 	paux = *h;
 	while(flag != 0)
 	{
-		if(dni == paux->documento)
+		if(paux == NULL) 
+		{
+			printf("No exite el usuario buscado\n");
+			flag = 0;
+		}
+		else if(dni == paux->documento)
 		{
 			while(flag!=0)
 			{
