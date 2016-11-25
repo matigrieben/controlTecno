@@ -39,7 +39,7 @@ int nuevoUsuario(int uart0_filestream)
 	if(verificarExistenciaDni(dni, "usuarios.txt"))
 	{
 		camara(dni);
-		while(0 > estatus > 3)
+		while(0 < estatus > 3)
 		{
 			printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
 			scanf("%d", &estatus);
