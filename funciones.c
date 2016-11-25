@@ -267,10 +267,18 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 	}
 	return;
 }
-
+/**
+	\fn void stringTag(int uart0_filestream, char vector[27])
+	\brief funcion que se encarga de leer la tarjeta
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param dni del usuario que se esta ingresando al sistema, para guardar la foto con ese nombre
+	\return 
+*/
 void stringTag(int uart0_filestream, char vector[27])
 {
-    int rx_length = 0, hola = 0, contador = 0, flag = 1;
+    int rx_length = 0, cantTotal = 0, contador = 0, flag = 1;
 	unsigned char rx_buffer[100];
     tcflush(uart0_filestream, TCIFLUSH);
 	while(flag)
@@ -280,18 +288,18 @@ void stringTag(int uart0_filestream, char vector[27])
 			rx_length = read(uart0_filestream, (void *)rx_buffer, 100);				
 			if (rx_length > 0)
 			{	
-				hola = hola + rx_length;
-				while(contador < rx_length && hola < 27)
+				cantTotal = cantTotal + rx_length;
+				while(contador < rx_length && cantTotal < 27)
 				{
-				  vector[(hola - rx_length + contador)] = rx_buffer[contador];
+				  vector[(cantTotal - rx_length + contador)] = rx_buffer[contador];
 				  contador++;
 				}
 				contador = 0;
-				if(hola > 25)
+				if(cantTotal > 25)
 				{	
 					flag=0;
 					vector[26] = '\0'; 	
-					//printf("hola %d    bytes read : %s\n", hola, vector);		
+					//printf("cantTotal %d    bytes read : %s\n", cantTotal, vector);		
 				}
 			}			
 
@@ -414,6 +422,15 @@ int verificarExistenciaDni(int dni, char* archivo) //------------------- 0 si ex
 	return flag;
 }
 
+/**
+	\fn void eliminarUsuario(usuarios **h)
+	\brief 
+	\details 
+	\author 
+	\date 2016.mes.dia
+	\param 
+	\return
+*/
 void eliminarUsuario(usuarios **h)
 {
 	int dni, enc = 0;
@@ -478,7 +495,15 @@ void eliminarUsuario(usuarios **h)
 	}
 }
 
-
+/**
+	\fn void modificarUsuario(int uart0_filestream, struct usuarios **h)
+	\brief 
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param  
+	\return --
+*/
 void modificarUsuario(int uart0_filestream, struct usuarios **h)
 {
 	int dni, mod, nedad, ndoc, nran, flag = 1, flag_rango = 1;
@@ -557,6 +582,15 @@ void modificarUsuario(int uart0_filestream, struct usuarios **h)
 	return;
 }
 
+/**
+	\fn void SubirUsuarios_Archivo(struct usuarios **h)
+	\brief pisa el archivo usuarios.txt cargandolo nuevamente con la estructura luego de modificar un usuario
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param archivo: 
+	\return --
+*/
 void SubirUsuarios_Archivo(struct usuarios **h)
 {
     FILE *fp = fopen("usuarios.txt","w");
@@ -583,6 +617,17 @@ void SubirUsuarios_Archivo(struct usuarios **h)
     return;
 }
 
+/**
+	\fn int verificarExistenciaStringTag(char *codigoexistente, char *archivo)
+	\brief verifica a la hora de crear un nuevo usuario si la tarjeta ya esta en uso
+	\details Sin detalles
+	\author 
+	\date 2016.mes.dia
+	\param codigoexistente: codigo e la tarjeta ingresada
+	\param archivo: archivo donde se encuentran todos los usuarios
+	\return 0 si no esta en uso
+	\return 1 si esta en uso 
+*/
 int verificarExistenciaStringTag(char *codigoexistente, char *archivo) //------------------- 0 si existe, 1 no existe
 {
 	FILE *fp = fopen(archivo, "r");
