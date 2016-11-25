@@ -36,3 +36,4 @@ int verificarExistenciaDni(int, char*);
 void eliminarUsuario(struct usuarios **);
 void modificarUsuario(int, struct usuarios **);
 void SubirUsuarios_Archivo(struct usuarios **);
+int verificarExistenciaStringTag(char *, char *);

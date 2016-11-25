@@ -28,32 +28,40 @@ int nuevoUsuario(int uart0_filestream)
 	printf("Pase la tarjeta del nuevo usuario:\n");
 	stringTag(uart0_filestream, vectorTag);
 	__fpurge(stdin);
-	printf("Nombre:\n"); 
-	scanf("%s", nombre);
-	printf("Apellido:\n"); 
-	scanf("%s", apellido);
-	printf("Edad:\n"); 
-	scanf("%d", &edad);
-	printf("Dni:\n"); 
-	scanf("%d", &dni);
-	if(verificarExistenciaDni(dni, "usuarios.txt"))
+	if(verificarExistenciaStringTag(vectorTag, "usuarios.txt"))
 	{
-		camara(dni);
-		while(0 >= rango || rango > 3)
+		printf("Nombre:\n"); 
+		scanf("%s", nombre);
+		printf("Apellido:\n"); 
+		scanf("%s", apellido);
+		printf("Edad:\n"); 
+		scanf("%d", &edad);
+		printf("Dni:\n"); 
+		scanf("%d", &dni);
+		if(verificarExistenciaDni(dni, "usuarios.txt"))
 		{
-			printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
-			scanf("%d", &rango);
+			camara(dni);
+			while(0 >= rango || rango > 3)
+			{
+				printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
+				scanf("%d", &rango);
+			}
+			printf("Usuario agregado exitosamente!\n");
+			fp=fopen("usuarios.txt", "a+");
+			if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, rango);
+			else estatus = 1;	
+			fclose(fp);	
 		}
-		printf("Usuario agregado exitosamente!\n");
-		fp=fopen("usuarios.txt", "a+");
-		if(fp!= NULL) fprintf(fp, "%s,%s,%s,%d,%d,%d\n", vectorTag, nombre, apellido, edad, dni, rango);
-		else estatus = 1;	
-		fclose(fp);	
+		else 
+		{
+			printf("Ya existe un usuario con ese dni, funcion nuevo usuario finalizado\n");	
+			estatus = 1; 
+		}
 	}
-	else 
+	else
 	{
-		printf("Ya existe un usuario con ese dni, funcion nuevo usuario finalizado\n");	
-		estatus = 1; 
+		printf("Ya existe el codigo del Tag en la lista\n");
+		estatus = 1;
 	}
 	return estatus;
 }
@@ -548,4 +556,22 @@ void SubirUsuarios_Archivo(struct usuarios **h)
         fclose(fp);
     }
     return;
+}
+
+int verificarExistenciaStringTag(char *codigoexistente, char *archivo) //------------------- 0 si existe, 1 no existe
+{
+	FILE *fp = fopen(archivo, "r");
+	int flag = 1, estatus = 0;
+	char codigo[30], nombre[30], apellido[30], edadString[8], dniString[10];
+	if(fp != NULL)
+	{
+		while(!feof(fp))
+		{
+			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
+			if(!strcmp(codigo,codigoexistente)) flag = 0;
+		}		
+	}
+	else printf("No se pudo abrir el archivo de usuarios!\n");
+	fclose(fp);
+	return flag;
 }
