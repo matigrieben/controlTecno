@@ -101,7 +101,7 @@ int ListarUsuarios(usuarios **h, char *archivo)
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
-			printf("edadstring:%d\n", edadString); //////borrarrrrr!"!!!"
+			printf("%s,%s,%s,edadstring:%s, %s, %d\n", codigo, nombre, apellido, edadString, dniString, estatus); //////borrarrrrr!"!!!"
 			nuevo = (usuarios *)malloc(sizeof(usuarios));
 			strcpy(nuevo->codigo, codigo);
 			strcpy(nuevo->nombre, nombre);
