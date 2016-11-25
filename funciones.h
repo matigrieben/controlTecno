@@ -32,7 +32,7 @@ void stringTag(int, char *);
 void encriptar(char *, int);
 void camara (int);
 int nuevaPass();
-int verificarExistencia(int, char*);
+int verificarExistenciaDni(int, char*);
 void eliminarUsuario(struct usuarios **);
 void modificarUsuario(int, struct usuarios **);
 void SubirUsuarios_Archivo(struct usuarios **);

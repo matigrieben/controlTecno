@@ -36,7 +36,7 @@ int nuevoUsuario(int uart0_filestream)
 	scanf("%d", &edad);
 	printf("Dni:\n"); 
 	scanf("%d", &dni);
-	if(verificarExistencia(dni, "usuarios.txt"))
+	if(verificarExistenciaDni(dni, "usuarios.txt"))
 	{
 		camara(dni);
 		while(0 > estatus > 3)
@@ -375,7 +375,7 @@ void encriptar(char* password, int cant)
 }
 
 /**
-	\fn int verificarExistencia(int dni, char* archivo)
+	\fn int verificarExistenciaDni(int dni, char* archivo)
 	\brief cuando el admin quiere cargar un usuario, verifica que no exista en el sistema
 	\details 
 	\author 
@@ -384,7 +384,7 @@ void encriptar(char* password, int cant)
 	\param * archivo nombre del archivo que contiene los usuarios del sistema
 	\return 0 si ya existe el usuario, 1 si no existe
 */
-int verificarExistencia(int dni, char* archivo) //------------------- 0 si existe, 1 no existe
+int verificarExistenciaDni(int dni, char* archivo) //------------------- 0 si existe, 1 no existe
 {
 	FILE *fp = fopen(archivo, "r");
 	int flag = 1, estatus = 0;
@@ -456,11 +456,11 @@ void modificarUsuario(int uart0_filestream, struct usuarios **h)
 	char ncod[27], nnom[30], nape[30];
 	usuarios *paux = NULL;
 	printf("Ingrese el dni del usuario que desea modificar:\n");
-	scanf("%d",&dni);
+	scanf("%d", &dni);
 	paux = *h;
-	while(flag!=0)
+	while(flag != 0)
 	{
-		if(dni==paux->documento)
+		if(dni == paux->documento)
 		{
 			while(flag!=0)
 			{
