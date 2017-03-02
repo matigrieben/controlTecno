@@ -15,7 +15,6 @@ int main(void)
 	int estatusLista = 0, estatusRango = 0, estatusPass = 0, opcion_elegida, status_opcion, uart0_filestream = -1, flag = 1;
 	usuarios *h = NULL;
 	struct termios options;
-	//unsigned char rx_buffer[100];
 	char vector[27];
 	uart0_filestream = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NDELAY);
 	if (uart0_filestream == -1)

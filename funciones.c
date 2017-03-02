@@ -40,7 +40,7 @@ int nuevoUsuario(int uart0_filestream)
 		scanf("%d", &dni);
 		if(verificarExistenciaDni(dni, "usuarios.txt"))
 		{
-			camara(dni);
+			//camara(dni);
 			while(flag)
 			{
 				printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
@@ -250,20 +250,6 @@ void imprimirUsuarioEncontrado(struct usuarios *h)
 	if(h != NULL)
 	{
 		printf("%s--%s--%s--%d--%d\n", h->codigo, h->nombre, h->apellido, h->edad, h->documento);
-		sprintf(buf, "%d.jpg", h->documento);
-		if(!fork())
-		{
-			img = cvLoadImage(buf, CV_LOAD_IMAGE_COLOR);
-			cvNamedWindow( "Usuario", CV_WINDOW_AUTOSIZE);
-	  		cvShowImage("Usuario", img);
-			cvWaitKey(3000);
-			cvDestroyWindow("Usuario");
-			exit(0);
-		}
-		else
-		{
-			wait(NULL);
-		}
 	}
 	return;
 }
@@ -307,44 +293,6 @@ void stringTag(int uart0_filestream, char vector[27])
 	}
 	__fpurge(stdin);
 	return;
-}
-
-/**
-	\fn void camara (int dni)
-	\brief abre la camara, y saca la foto guardandola con el dni del usuario 
-	\details Sin detalles
-	\author 
-	\date 2016.mes.dia
-	\param dni del usuario que se esta ingresando al sistema, para guardar la foto con ese nombre
-	\return 
-*/
-void camara (int dni)
-{
-	int bucle = 1, key = 0;
-	char buf[15];
-	sprintf(buf, "%d.jpg", dni); //concatenar el dni con.jpg. Es necesario que sea char, ya que asi lo pide la funcion cvSave...
-    IplImage *frame= NULL;
-    CvCapture* capture;
-    if(!fork())
-    {
-	    capture = cvCaptureFromCAM( -1 );
-	    cvSetCaptureProperty(capture, CV_CAP_PROP_FPS, 31.0);
-	    cvNamedWindow("imagen", CV_WINDOW_AUTOSIZE); //crea una ventana para mostrar la camara
-	    do
-	    {
-	        frame = cvQueryFrame( capture );
-	        cvShowImage("imagen", frame);
-	    }
-	    while((key = cvWaitKey(1)) < 0);    
-    	cvSaveImage(buf, frame,0); //guardar la imagen
-		cvDestroyWindow("imagen"); //cierra la ventana generada
-		cvReleaseCapture( &capture ); //cerrar los recursos de la camara pedidos
-		exit(0);
-	}
-	else 
-	{
-		wait(NULL);
-	}
 }
 
 /**
