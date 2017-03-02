@@ -6,9 +6,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
-#include <sys/types.h>
+//#include <opencv/cv.h>
+//#include <opencv/highgui.h>
+//#include <sys/types.h>
 
 int main(void)
 {
@@ -49,7 +49,6 @@ int main(void)
 						case 1:
 							if(!nuevoUsuario(uart0_filestream))
 							{
-								//imprimirListaUsuarios(h);
 								liberarListaUsuarios(&h);
 							  	if(!ListarUsuarios(&h, "usuarios.txt"))
 							  	{
@@ -57,7 +56,6 @@ int main(void)
 							  	 	flag = 0;
 							  	 	liberarListaUsuarios(&h);
 							  	}
-							  	//else imprimirListaUsuarios(h);
 							}
 							break;
 						case 2:

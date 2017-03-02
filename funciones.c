@@ -6,10 +6,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
-#include <sys/types.h>
-
 /**
 	\fn int nuevoUsuario()
 	\brief funcion para cargar usuarios nuevos en el archivo
@@ -40,7 +36,6 @@ int nuevoUsuario(int uart0_filestream)
 		scanf("%d", &dni);
 		if(verificarExistenciaDni(dni, "usuarios.txt"))
 		{
-			//camara(dni);
 			while(flag)
 			{
 				printf("Rango del nuevo usuario: (1 administrador, 2 usuario)\n"); 
@@ -114,7 +109,6 @@ int ListarUsuarios(usuarios **h, char *archivo)
 		while(!feof(fp))
 		{
 			fscanf(fp, "%[^,], %[^,], %[^,], %[^,], %[^,], %d\n", codigo, nombre, apellido, edadString, dniString, &estatus);
-			//printf("%s,%s,%s,edadstring:%s, %s, %d\n", codigo, nombre, apellido, edadString, dniString, estatus); //////borrarrrrr!"!!!"
 			nuevo = (usuarios *)malloc(sizeof(usuarios));
 			strcpy(nuevo->codigo, codigo);
 			strcpy(nuevo->nombre, nombre);
