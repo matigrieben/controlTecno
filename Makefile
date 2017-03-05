@@ -12,7 +12,7 @@ CC = gcc
 # Argumentos de compilacion el -g activa para hacer debuging en algun futuro
 C_PARAM = -c -g   
 # Argumentos de linkeo
-LD= -lm `pkg-config --libs opencv`
+LD= -lm -lwiringPi -Wall
 
 
 ##########################

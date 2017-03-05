@@ -5,9 +5,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
-#include <sys/types.h>
 
 typedef struct usuarios
 {

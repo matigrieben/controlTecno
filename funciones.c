@@ -239,7 +239,6 @@ int paseUsuario(struct usuarios *h, char *codigoBuscar)
 void imprimirUsuarioEncontrado(struct usuarios *h)
 {
 	char buf[15];
-	IplImage *img = NULL;
 	int key = 0;
 	if(h != NULL)
 	{
